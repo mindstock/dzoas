@@ -1,0 +1,40 @@
+  <table width="100%" border="0" align="center" cellspacing="0" cellpadding="0">
+  <tr>
+    <td height="25" align="center" valign="bottom" class="td06"><table width="98%" border="0" cellspacing="3" cellpadding="0">
+      <tr>
+        <td width="15"><img src="<%=image_path('index_32.gif')%>" width="9" height="9"></td>
+        <td valign="bottom" class="title">员工列表</td>
+        <td valign="bottom" align="right" class="title"><%= link_to "新增系统用户", "/employees/sys/users/new_sys"%></td>
+      </tr>
+    </table></td>
+  </tr>
+</table>
+<br>
+<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0" style="table-layout:fixed">
+  <tr> 
+    <td nowrap class="td_top">ID</td>
+    <td nowrap class="td_top">姓名</td>
+    <td nowrap class="td_top">角色</td>
+    <td nowrap class="td_top">登录次数</td>
+    <td nowrap class="td_top">创建时间</td>
+    <td nowrap class="td_top">本次登录时间</td>
+    <td nowrap class="td_top">上次登录时间</td>
+    <td nowrap class="td_top">当前登录IP</td>
+    <td nowrap class="td_top">上次登录IP</td>
+    <td nowrap class="td_top">操作</td>
+  </tr>
+  <%@users.each do|user|%>
+    <tr id="list">
+      <td class="td_01" id="id"><%=user.id%></td>
+      <td class="td_01" id="name"><%=user.username%></td>
+      <td class="td_01" id="name"><%=user.role.name%></td>
+      <td class="td_01" id="phone"><%=user.sign_in_count%></td>
+      <td class="td_01" id="address"><%=user.created_at%></td>
+      <td class="td_01" id="department"><%=user.current_sign_in_at%></td>
+      <td class="td_01" id="department"><%=user.last_sign_in_at%></td>
+      <td class="td_01" id="department"><%=user.current_sign_in_ip%></td>
+      <td class="td_01" id="department"><%=user.last_sign_in_ip%></td>
+      <td class="td_01" id="department"><%= link_to '删除', "/employees/sys/users/del?user_id=#{user.id}" %>&nbsp;&nbsp;</td>
+    </tr>
+  <%end%>     
+</table>

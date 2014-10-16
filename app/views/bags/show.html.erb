@@ -1,0 +1,14 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Sheet:</strong>
+  <%= @bag.sheet %>
+</p>
+
+<p>
+  <strong>Type:</strong>
+  <%= @bag.type %>
+</p>
+
+<%= link_to 'Edit', edit_bag_path(@bag) %> |
+<%= link_to 'Back', bags_path %>

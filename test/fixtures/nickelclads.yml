@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  thickness: MyString
+  wide: MyString
+  length: MyString
+  to: MyString
+  allowance: MyString
+  is_declicacy: 1
+
+two:
+  thickness: MyString
+  wide: MyString
+  length: MyString
+  to: MyString
+  allowance: MyString
+  is_declicacy: 1

@@ -1,0 +1,59 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>From:</strong>
+  <%= @tape.from %>
+</p>
+
+<p>
+  <strong>Place:</strong>
+  <%= @tape.place %>
+</p>
+
+<p>
+  <strong>Texture:</strong>
+  <%= @tape.texture %>
+</p>
+
+<p>
+  <strong>Thickness:</strong>
+  <%= @tape.thickness %>
+</p>
+
+<p>
+  <strong>Wide:</strong>
+  <%= @tape.wide %>
+</p>
+
+<p>
+  <strong>Length:</strong>
+  <%= @tape.length %>
+</p>
+
+<p>
+  <strong>Raw weight:</strong>
+  <%= @tape.raw_weight %>
+</p>
+
+<p>
+  <strong>Put weight:</strong>
+  <%= @tape.put_weight %>
+</p>
+
+<p>
+  <strong>Out weight:</strong>
+  <%= @tape.out_weight %>
+</p>
+
+<p>
+  <strong>Residue weight:</strong>
+  <%= @tape.residue_weight %>
+</p>
+
+<p>
+  <strong>Tape num:</strong>
+  <%= @tape.tape_num %>
+</p>
+
+<%= link_to 'Edit', edit_tape_path(@tape) %> |
+<%= link_to 'Back', tapes_path %>

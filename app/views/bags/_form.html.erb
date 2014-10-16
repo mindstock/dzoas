@@ -1,0 +1,25 @@
+<%= form_for(@bag) do |f| %>
+  <% if @bag.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@bag.errors.count, "error") %> prohibited this bag from being saved:</h2>
+
+      <ul>
+      <% @bag.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :sheet %><br>
+    <%= f.text_field :sheet %>
+  </div>
+  <div class="field">
+    <%= f.label :type %><br>
+    <%= f.number_field :type %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

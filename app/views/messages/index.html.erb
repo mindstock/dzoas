@@ -1,0 +1,49 @@
+  <table width="100%" border="0" align="center" cellspacing="0" cellpadding="0">
+  <tr>
+    <td height="25" align="center" valign="bottom" class="td06"><table width="98%" border="0" cellspacing="3" cellpadding="0">
+      <tr>
+        <td width="15"><img src="<%=image_path('index_32.gif')%>" width="9" height="9"></td>
+        <td valign="bottom" class="title">待办事项</td>
+        <td valign="bottom" align="right" class="title"><%= link_to "新增", "/messages/new?type=1"%></td>
+      </tr>
+    </table></td>
+  </tr>
+</table>
+<br>
+<table width="100%"  border="0" align="center" cellpadding="0" cellspacing="0">
+  <tr>
+    <td class="td_page">
+       <%= form_tag("/plans/list/department", :class => 'form-horizontal') do -%>
+        <%= hidden_field_tag "department", "1"%>
+        任务状态：
+
+        
+      任务完成时间：
+      <input type="date" id="finish_at" class="input" size="10" value="<%=@view_params[:finish_at]%>"/>    
+      <input name="search" id="search" type="button" class="buttonface02" value="查询">
+      <%= link_to "创建计划", "/plans/search/tapes"%>
+      <%end%>
+    </td>
+  </tr>
+</table>
+<br>
+<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0" style="table-layout:fixed">
+  <tr> 
+    <td nowrap class="td_top">ID</td>
+    <td nowrap class="td_top">标题</td>
+    <td nowrap class="td_top">时间</td>
+    <td nowrap class="td_top">内容</td>
+    <td nowrap class="td_top">操作</td>
+  </tr>
+  <%@messages.each do|message|%>
+    <tr id="list">
+      <td class="td_01" id="id"><%=message.id%></td>
+      <td class="td_01" id="name"><%=message.title%></td>
+      <td class="td_01" id="phone"><%=message.content%></td>
+      <td class="td_01" id="address"><%=message.complete_at%></td>
+      <td class="td_01">
+        <%= link_to '编辑', edit_message_path(message) %>
+      </td>
+    </tr>
+  <%end%>     
+</table>

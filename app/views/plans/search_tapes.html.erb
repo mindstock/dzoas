@@ -1,0 +1,79 @@
+  <table width="100%" align="center" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td height="25" align="center" valign="bottom" class="td06"><table width="98%" border="0" cellspacing="3" cellpadding="0">
+      <tr>
+        <td width="15"><img src="<%=image_path('index_32.gif')%>" width="9" height="9"></td>
+        <td valign="bottom" class="title">查找钢卷</td>
+      </tr>
+    </table></td>
+  </tr>
+</table>
+<br>
+<table width="100%"  border="0" align="center" cellpadding="0" cellspacing="0">
+  <tr>
+    <td class="td_page">
+      <%= form_tag('/plans/tape/search', multipart: true, :id =>"search_form") do -%>
+        材质：<%= text_field_tag 'texture',"#{@where[:texture]}", :class => "input required"%>
+        剪切规格：<%= text_field_tag 'size',"#{@where[:size]}", :class => "input required"%>
+      <input name="Submit2" type="submit" class="buttonface02" value="查找"></a>
+      <button id="to_new_plan" type="button" class="buttonface02">下计划</button>
+      <%= link_to "跳过", tapes_path%>
+      <%end -%>
+    </td>
+  </tr>
+</table>
+<br>
+<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0" style="table-layout:fixed">
+  <tr> 
+    <td nowrap class="td_top">ID</td>
+    <td nowrap class="td_top">供应商</td>
+    <td nowrap class="td_top">库位</td>
+    <td nowrap class="td_top">材质</td>
+    <td nowrap class="td_top">钢卷规格</td>
+    <td nowrap class="td_top">库存（KG）</td>
+     <td nowrap class="td_top">钢卷号</td>
+     <td nowrap class="td_top">入库日期</td>
+     <td nowrap class="td_top">状态</td>
+     <td nowrap class="td_top">预计剪切张数</td>
+     <td nowrap class="td_top">操作</td>
+  </tr>
+  <%@tapes.each do|tape|%>
+    <tr> 
+                        <td class="td_01" id="id"><%=tape.id%></td>
+                        <td class="td_01" id="from"><%=tape.from%></td>
+                        <td class="td_01" id="place"><%=tape.place%></td>
+                        <td class="td_01" id="place"><%=tape.texture%></td>
+                        <td class="td_01" id="size"><%=tape.thickness%>*<%=tape.wide%>*<%=tape.length%></td>
+                        <td class="td_01" id="residue_weight"><%=tape.residue_weight%></td>
+                        <td class="td_01" id="tape_num"><%=tape.tape_num%></td>
+                        <td class="td_01" id="creat"><%=tape.created_at%></td>
+                        <td class="td_01" id="creat"><%=@status_info[tape.status]%></td>
+                        <td class="td_01" id="num"><%=(tape.residue_weight.to_f/(tape.wide.to_f/1000)/tape.thickness.to_f/7.85/(@where[:size].split('*')[2].to_f/1000)).to_i%></td>
+                        <td class="td_01">
+                          <%=check_box_tag "tape_id", "#{tape.id}"%>
+                        </td>
+    </tr>
+  <%end%>     
+</table>
+ <script type="text/javascript">
+      $("#to_new_plan").click(function (){
+          var s='';
+          var i = 0;
+          $('input[name="tape_id"]:checked').each(function(){
+            s+=$(this).val()+',';
+            i += 1;
+          });
+          if(i < 1){
+            alert("必须选择最低一个钢卷");
+          }else{
+            location.href = "/plans/new?tapes_id="+s+"&department=1&new_size="+$("#size").val();
+          }
+          
+        });
+
+      $().ready(function() { 
+        $("#search_form").validate(); 
+      }); 
+    </script>
+
+

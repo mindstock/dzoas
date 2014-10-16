@@ -1,0 +1,90 @@
+  <table width="100%" border="0" cellspacing="0" cellpadding="0">
+    <tr>
+      <td height="25" align="center" valign="bottom" class="td06"><table width="98%" border="0" cellspacing="3" cellpadding="0">
+          <tr>
+            <td width="15"><img src="<%=image_path('index_32.gif')%>" width="9" height="9"></td>
+            <td valign="bottom" class="title">修改计划</td>
+          </tr>
+      </table></td>
+    </tr>
+  </table>
+  <%= form_tag("/plans/#{@plan.id}", :class => 'form-horizontal') do -%>
+    <table width="95%" border="0" cellspacing="0" cellpadding="0">
+      <tr>
+        <td width="90" height="24" class="td_form01">钢卷规格</td>
+        <td class="td_form02">
+          <%= text_field_tag 'tape_size',"#{@plan.tape.thickness}*#{@plan.tape.wide}*#{@plan.tape.length}", :class => "form-control",:readonly => "readonly"%>
+          <%= hidden_field_tag "plan_id", "#{@plan.id}"%>
+        </td>
+        <td width="90" class="td_form01">是否收卷</td>
+        <td class="td_form02">
+          <input type="radio" id="status" name="status" value="1" <%if @plan.tape.status == 1%>checked="checked"<%end%>>是
+          <input type="radio" id="status" name="status" value="2" <%if @plan.tape.status == 2%>checked="checked"<%end%>>否
+        </td>
+      </tr>
+      <tr>
+        <td height="24" class="td_form01">剪切规格</td>
+        <td class="td_form02">
+          <%= text_field_tag 'size',"#{@plan.nickelclad.thickness}*#{@plan.nickelclad.wide}*#{@plan.nickelclad.length}"%>
+        </td>
+        <td class="td_form01">计划件数</td>
+        <td class="td_form02">
+          <%if @plan.final_sheet == ""%>
+            <%= text_field_tag 'final_sheet',"", :class => "form-control"%>
+          <%else%>
+            <%= text_field_tag 'final_sheet',"#{@plan.final_sheet}", :class => "form-control"%>
+          <%end%>
+        </td>
+      </tr>
+      <tr>
+        <td height="24" class="td_form01">送往单位</td>
+        <td class="td_form02">
+          <%= text_field_tag 'to',"#{@plan.nickelclad.to}", :class => "form-control"%>
+        </td>
+        <td class="td_form01">重要程度</td>
+        <td class="td_form02">
+          <select class="form-control" id="is_urgency" name="is_urgency">
+            <option value ="0" <%if @plan.is_urgency == 0%>selected="selected"<%end%>>一般</option>
+            <option value ="1" <%if @plan.is_urgency == 1%>selected="selected"<%end%>>紧急</option>
+          </select>
+        </td>
+      </tr>
+       <tr>
+        <td height="24" class="td_form01">完工日期</td>
+        <td class="td_form02">
+          <input type="date" name="finish_at" id="finish_at" size="10" value="<%=@plan.finish_at%>"/> 
+          
+        </td>
+        <td class="td_form01">是否表面件</td>
+        <td class="td_form02">
+          <input type="radio" id="is_declicacy" name="is_declicacy" value="1" <%if @plan.nickelclad.is_declicacy == 1%>checked="checked"<%end%>>是
+          <input type="radio" id="is_declicacy" name="is_declicacy" value="2" <%if @plan.nickelclad.is_declicacy == 0%>checked="checked"<%end%>>否
+        </td>
+      </tr>
+      <tr>
+        <td class="td_form01">工差</td>
+        <td class="td_form02">
+          <input type="radio" id="allowance" name="allowance" value="+0.5" <%if @plan.nickelclad.allowance == "+0.5"%>checked="checked"<%end%>>+0.5
+          <input type="radio" id="allowance" name="allowance" value="-0.5" <%if @plan.nickelclad.allowance == "-0.5"%>checked="checked"<%end%>>-0.5
+          <input type="radio" id="allowance" name="allowance" value="+1" <%if @plan.nickelclad.allowance == "+1"%>checked="checked"<%end%>>+1
+        </td>
+      </tr>
+      <tr="2">
+        <td class="td_form01">备注</td>
+        <td class="td_form02" colspan="3">
+          <textarea id="remark" name="remark" cols="80" rows="5"><%=@plan.remark%></textarea>
+        </td>
+      </tr>
+    </table>
+    <br>
+    <table width="95%" border="0" align="center" cellpadding="0" cellspacing="0">
+      <tr>
+        <td align="center">
+          <input name=save  type="submit" class=buttonface value= '  提交  '>        
+        <input name="Submit" type="button" class="buttonface" value="取消" onClick="history.back(-1)"></td>
+      </tr>
+    </table>
+    <p>&nbsp;</p>
+    <p><br>
+    </p>
+  <%end -%>

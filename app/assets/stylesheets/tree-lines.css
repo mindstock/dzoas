@@ -1,0 +1,16 @@
+/* lines */
+
+.tree-lines-c {
+  background: transparent url("lines-c.gif") no-repeat 1px 50%;
+}
+.tree-lines-b {
+  background: transparent url("lines-b.gif") no-repeat 1px 50%;
+}
+.tree-lines-t {
+  background: transparent url("lines-t.gif") no-repeat 1px 50%;
+}
+.tree-lines-s {
+  background: transparent url("lines-s.gif") no-repeat 1px 50%;
+}
+.tree-lined { background: transparent url("lines-v.gif") repeat-y 1px 0; }
+.tree-lines-dot { background: transparent url("dot.gif") no-repeat 1px 50%; }

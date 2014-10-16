@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  merge: MyString
+  thickness: MyString
+  wide: MyString
+  length: MyString
+  allowance: MyString
+  is_declicacy: 1
+
+two:
+  merge: MyString
+  thickness: MyString
+  wide: MyString
+  length: MyString
+  allowance: MyString
+  is_declicacy: 1

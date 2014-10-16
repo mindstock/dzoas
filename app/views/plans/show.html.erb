@@ -1,0 +1,128 @@
+  <table width="95%" border="0" cellspacing="0" cellpadding="0">
+    <tr>
+      <td height="25" align="center" valign="bottom" class="td06"><table width="98%" border="0" cellspacing="3" cellpadding="0">
+          <tr>
+            <td width="15"><img src="<%=image_path('index_32.gif')%>" width="9" height="9"></td>
+            <td valign="bottom" class="title">详细信息-计划ID：<%=@plan.id%> 钢卷ID：<%=@plan.tape.id%>, 钢卷号：<%=@plan.tape.tape_num%>,钢板ID：<%=@plan.nickelclad.id%></td>
+          </tr>
+      </table></td>
+    </tr>
+  </table>
+  <br>
+    <table width="95%" border="0" cellspacing="0" cellpadding="0">
+      <tr>
+        <td width="90" height="24" class="td_form01">钢卷规格</td>
+        <td class="td_form02">
+          <%= text_field_tag 'tape_size',"#{@plan.tape.thickness}*#{@plan.tape.wide}*#{@plan.tape.length}", :readonly => "readonly"%>
+            <%= hidden_field_tag "plan_id", "#{@plan.id}"%>
+        </td>
+        <td width="90" class="td_form01">是否收卷</td>
+        <td class="td_form02">
+          <input type="radio" id="status" name="status" value="1" <%if @plan.tape.status == 1%>checked="checked"<%end%>>是
+          <input type="radio" id="status" name="status" value="2" <%if @plan.tape.status == 2%>checked="checked"<%end%>>否
+        </td>
+      </tr>
+      <tr>
+        <td height="24" class="td_form01">剪切规格</td>
+        <td class="td_form02">
+          <%= text_field_tag 'size',"#{@plan.nickelclad.thickness}*#{@plan.nickelclad.wide}*#{@plan.nickelclad.length}", :readonly => "readonly"%>
+        </td>
+        <td height="24" class="td_form01">送往单位</td>
+        <td class="td_form02">
+          <%= text_field_tag 'to',"#{@plan.nickelclad.to}", :class => "form-control"%>
+        </td>
+      </tr>
+      <tr>
+        <td class="td_form01">计划件数</td>
+        <td class="td_form02">
+          <%if @plan.final_sheet == ""%>
+            <%= text_field_tag 'final_sheet',"全开", :class => "form-control"%>
+          <%else%>
+            <%= text_field_tag 'final_sheet',"#{@plan.final_sheet}", :class => "form-control"%>
+          <%end%>
+        </td>
+        <td class="td_form01">实际件数</td>
+        <td class="td_form02">
+          <%= text_field_tag 'final_sheet',"#{@plan.nickelclad.real_final_sheet}", :class => "form-control"%>
+        </td>
+      </tr>
+       <tr>
+        <td height="24" class="td_form01">是否表面件</td>
+        <td class="td_form02">
+          <input type="radio" id="is_declicacy" name="is_declicacy" value="1" <%if @plan.nickelclad.is_declicacy == 1%>checked="checked"<%end%>>是
+          <input type="radio" id="is_declicacy" name="is_declicacy" value="2" <%if @plan.nickelclad.is_declicacy == 0%>checked="checked"<%end%>>否
+        </td>
+        <td height="24" class="td_form01">重要程度</td>
+        <td class="td_form02">
+          <select class="form-control" id="is_urgency" name="is_urgency">
+            <option value ="0" <%if @plan.is_urgency == 0%>selected="selected"<%end%>>一般</option>
+            <option value ="1" <%if @plan.is_urgency == 1%>selected="selected"<%end%>>紧急</option>
+          </select>
+          
+        </td>
+      </tr>
+      <tr>
+        <td height="24" class="td_form01">完工日期</td>
+        <td class="td_form02">
+          <%= text_field_tag "finish_at", "#{@plan.finish_at}", :class => "form-control dtpicker", "data-format" => "yyyy-MM-dd"%>
+        </td>
+        <td height="24" class="td_form01">实际完工日期</td>
+        <td class="td_form02">
+          <%= text_field_tag "finish_at", "#{@plan.real_finish_at}", :class => "form-control dtpicker", "data-format" => "yyyy-MM-dd"%>
+        </td>
+      </tr>
+      <tr="2">
+        <td class="td_form01">公差</td>
+        <td class="td_form02">
+          <input type="radio" id="allowance" name="allowance" value="1" <%if @plan.nickelclad.allowance == "+0.5"%>checked="checked"<%end%>>+0.5
+          <input type="radio" id="allowance" name="allowance" value="2" <%if @plan.nickelclad.allowance == "-0.5"%>checked="checked"<%end%>>-0.5
+          <input type="radio" id="allowance" name="allowance" value="2" <%if @plan.nickelclad.allowance == "+1"%>checked="checked"<%end%>>+1
+        </td>
+        <td class="td_form01">备注</td>
+        <td class="td_form02">
+          <%= text_area_tag "remark", "#{@plan.remark}", :class => "form-control"%>
+        </td>
+      </tr>
+    </table>
+<h6>该钢卷开平历史记录</h6>
+<hr />
+<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0" style="table-layout:fixed">
+  <tr> 
+    <td nowrap class="td_top">计划id</td>
+    <td nowrap class="td_top">钢卷id</td>
+    <td nowrap class="td_top">钢板id</td>
+    <td nowrap class="td_top">钢板规格</td>
+    <td nowrap class="td_top">张数</td>
+    <td nowrap class="td_top">送往单位</td>
+    <td nowrap class="td_top">完成时间</td>
+  </tr>
+  <%@plans.each do|plan|%>
+    <tr>
+      <td class="td_01"><%=plan.id%></td>
+      <td class="td_01"><%=plan.tape.id%></td>
+      <td class="td_01"><%=plan.nickelclad.id%></td>
+      <td class="td_01"><%=plan.nickelclad.thickness%>*<%=plan.nickelclad.wide%>*<%=plan.nickelclad.length%></td>
+      <td class="td_01"><%=plan.nickelclad.real_final_sheet%></td>
+      <td class="td_01"><%=plan.nickelclad.to%></td>
+      <td class="td_01"><%=plan.nickelclad.real_finish_at%></td>
+      <tr>
+  <%end%>     
+</table>
+<h6>该钢卷质检历史记录</h6>
+<hr />
+<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0" style="table-layout:fixed">
+  <tr> 
+    <td nowrap class="td_top">ID</td>
+    <td nowrap class="td_top">是否合格</td>
+    <td nowrap class="td_top">备注</td>
+    <td nowrap class="td_top">检查时间</td>
+  </tr>
+  <%@quclity_checks.each do|quclity_check|%>
+    <tr>
+      <td class="td_01"><%=quclity_check.id%></td>
+      <td class="td_01"><%if quclity_check.is_standard ==1%>是<%else%>否<%end%></td>
+      <td class="td_01"><%=quclity_check.remark%></td>
+      <td class="td_01"><%=quclity_check.created_at%></td>
+    </tr>
+  <%end%>     
+</table>

@@ -1,0 +1,24 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Parent:</strong>
+  <%= @power.parent_id %>
+</p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @power.name %>
+</p>
+
+<p>
+  <strong>Url:</strong>
+  <%= @power.url %>
+</p>
+
+<p>
+  <strong>Remark:</strong>
+  <%= @power.remark %>
+</p>
+
+<%= link_to 'Edit', edit_power_path(@power) %> |
+<%= link_to 'Back', powers_path %>

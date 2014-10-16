@@ -1,0 +1,33 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>大章实业自动化办公系统</title>
+  <%=stylesheet_link_tag "style_spread"%>
+  <%=javascript_include_tag "bootstrap"%> 
+  <%=javascript_include_tag "jquery"%> 
+   <!-- Stylesheets -->
+  <%=stylesheet_link_tag "style/bootstrap"%>
+  
+</head>
+<body>
+  <audio id="music" src="" autoplay="autoplay"></audio>
+    <div class="header">
+    <table width="100%" border="0" cellpadding="0" cellspacing="0" background="<%=image_path('index_02.gif')%>">
+      <tr height="36px">
+        <td class="F002" width="280px">&nbsp;&nbsp;&nbsp;大章实业自动化办公系统</td>
+        <td>
+            <marquee style="color:#AE0000;font-size: 18px;" onmouseout="this.start()">
+                勤勉&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                和合&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                创造&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            </marquee>
+      </td>
+      </tr>
+    </table>
+    <div height="8" width="100%"><img src="<%=image_path('spacer.gif')%>" width="1" height="8"></div>
+    <table width="100%" border="0" cellpadding="0" cellspacing="0" background="<%=image_path('index_21.gif')%>">
+  </div>
+  <%=yield%>
+</body>
+</html>

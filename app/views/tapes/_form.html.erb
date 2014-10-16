@@ -1,0 +1,80 @@
+  <table width="100%" border="0" cellspacing="0" cellpadding="0">
+    <tr>
+      <td height="25" align="center" valign="bottom" class="td06"><table width="98%" border="0" cellspacing="3" cellpadding="0">
+          <tr>
+            <td width="15"><img src="<%=image_path('index_32.gif')%>" width="9" height="9"></td>
+            <td valign="bottom" class="title">添加钢卷</td>
+          </tr>
+      </table></td>
+    </tr>
+  </table>
+  <br>
+  <%= form_tag('/tapes', :class => 'form-horizontal', :id=>"tape_add_edit") do -%>
+    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+      <tr>
+        <td width="90" height="24" class="td_form01">供应商</td>
+        <td class="td_form02">
+          <%= text_field_tag 'from', "#{@tape.from}", :class => "input required"%>
+                       <%= hidden_field_tag 'id', "#{@tape.id}"%>
+        </td>
+        <td width="90" height="24" class="td_form01">钢卷号</td>
+        <td class="td_form02">
+          <%= text_field_tag 'tape_num', "#{@tape.tape_num}", :class => "input required"%>
+        </td>
+        
+      </tr>
+      <tr>
+        <td width="90" height="24" class="td_form01">材质</td>
+        <td class="td_form02">
+          <%= text_field_tag 'texture', "#{@tape.texture}", :class => "input required"%>
+        </td>
+        <td width="90" height="24" class="td_form01">规格</td>
+        <td class="td_form02">
+          <input type="text" name="thickness" id="thickness" value="<%=@tape.thickness%>" class="input number">*
+          <input type="text" name="wide" id="wide" value="<%=@tape.wide%>" class="input number">*
+          <input type="text" name="length" id="length" value="C" class="input">
+        </td>
+      </tr>
+      <tr>
+        <td width="90" height="24" class="td_form01">起初数量</td>
+        <td class="td_form02">
+          <%= text_field_tag 'raw_weight', "#{@tape.raw_weight}", :class => "input number"%>
+        </td>
+        <td width="90" height="24" class="td_form01">剩余数量</td>
+        <td class="td_form02">
+          <%= text_field_tag 'residue_weight', "#{@tape.residue_weight}", :class => "input number"%>
+        </td>
+      </tr>
+      <tr>
+        <td width="90" height="24" class="td_form01">库位</td>
+        <td class="td_form02">
+          <%= text_field_tag 'place', "#{@tape.place}", :class => "input required"%>
+        </td>
+        <td width="90" height="24" class="td_form01">钢卷状态</td>
+        <td class="td_form02">
+          <select name="status" id="status">
+            <option value="0" <%if @tape.status==0%>selected<%end%>>新卷</option>
+            <option value="3" <%if @tape.status==3%>selected<%end%>>外厂</option>
+            <option value="1" <%if @tape.status==1%>selected<%end%>>收卷</option>
+            <option value="2" <%if @tape.status==2%>selected<%end%>>用完</option>
+          </select>
+        </td>
+      </tr>
+    </table>
+    <br>
+    <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
+      <tr>
+        <td align="center">
+          <%= submit_tag '提交', :class => 'btn btn-success'%>
+         <%= submit_tag '返回', :class => 'btn btn-info'%>
+      </tr>
+    </table>
+    <p>&nbsp;</p>
+    <p><br>
+    </p>
+  <%end -%>
+<script type="text/javascript">
+  $().ready(function() { 
+        $("#tape_add_edit").validate(); 
+      });
+</script>

@@ -1,0 +1,51 @@
+  <table width="100%" border="0" cellspacing="0" cellpadding="0">
+    <tr>
+      <td height="25" align="center" valign="bottom" class="td06"><table width="98%" border="0" cellspacing="3" cellpadding="0">
+          <tr>
+            <td width="15"><img src="<%=image_path('index_32.gif')%>" width="9" height="9"></td>
+            <td valign="bottom" class="title">员工管理</td>
+          </tr>
+      </table></td>
+    </tr>
+  </table>
+  <br>
+  <%= form_tag('/employees', :class => 'form-horizontal') do -%>
+    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+      <tr>
+        <td width="90" height="24" class="td_form01">姓名</td>
+        <td class="td_form02">
+          <%= text_field_tag 'name', "#{@employee.name}", :class => "form-control"%>
+                       <%= hidden_field_tag 'id', "#{@employee.id}"%>
+        </td>
+      </tr>
+      <tr>
+        <td height="24" class="td_form01">手机号</td>
+        <td class="td_form02">
+          <%= text_field_tag 'phone', "#{@employee.phone}", :class => "form-control"%>
+        </td>
+      </tr>
+      <tr>
+        <td height="24" class="td_form01">家庭住址</td>
+        <td class="td_form02">
+          <%= text_field_tag 'address', "#{@employee.address}", :class => "form-control"%>
+        </td>
+      </tr>
+      <tr>
+        <td height="24" class="td_form01">所属部门</td>
+        <td class="td_form02">
+          <%= select_tag "department_id", options_from_collection_for_select(@departments, "id", "name"), :class => "form-control"%>
+        </td>
+      </tr>
+    </table>
+    <br>
+    <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
+      <tr>
+        <td align="center">
+         <%= submit_tag '提交', :class => 'btn btn-success'%>
+         <%= submit_tag '返回', :class => 'btn btn-info'%>
+      </tr>
+    </table>
+    <p>&nbsp;</p>
+    <p><br>
+    </p>
+  <%end -%>

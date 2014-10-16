@@ -1,0 +1,31 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  thickness: MyString
+  wide: MyString
+  length: MyString
+  final_sheet: MyString
+  final_piece: MyString
+  final_row: MyString
+  finish_at: MyString
+  real_finish_at: MyString
+  is_urgency: 1
+  allowance: MyString
+  is_declicacy: 1
+  to: 1
+  status: 1
+
+two:
+  thickness: MyString
+  wide: MyString
+  length: MyString
+  final_sheet: MyString
+  final_piece: MyString
+  final_row: MyString
+  finish_at: MyString
+  real_finish_at: MyString
+  is_urgency: 1
+  allowance: MyString
+  is_declicacy: 1
+  to: 1
+  status: 1

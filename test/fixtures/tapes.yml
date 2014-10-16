@@ -1,0 +1,27 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  from: MyString
+  place: MyString
+  texture: MyString
+  thickness: MyString
+  wide: MyString
+  length: MyString
+  raw_weight: 1
+  put_weight: 1
+  out_weight: 1
+  residue_weight: 1
+  tape_num: MyString
+
+two:
+  from: MyString
+  place: MyString
+  texture: MyString
+  thickness: MyString
+  wide: MyString
+  length: MyString
+  raw_weight: 1
+  put_weight: 1
+  out_weight: 1
+  residue_weight: 1
+  tape_num: MyString

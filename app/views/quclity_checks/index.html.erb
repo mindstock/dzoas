@@ -1,0 +1,29 @@
+<h1>Listing quclity_checks</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Is standard</th>
+      <th>Remark</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @quclity_checks.each do |quclity_check| %>
+      <tr>
+        <td><%= quclity_check.is_standard %></td>
+        <td><%= quclity_check.remark %></td>
+        <td><%= link_to 'Show', quclity_check %></td>
+        <td><%= link_to 'Edit', edit_quclity_check_path(quclity_check) %></td>
+        <td><%= link_to 'Destroy', quclity_check, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Quclity check', new_quclity_check_path %>

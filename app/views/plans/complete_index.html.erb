@@ -1,0 +1,151 @@
+  <table width="100%" align="center" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td height="25" align="center" valign="bottom" class="td06"><table width="98%" border="0" cellspacing="3" cellpadding="0">
+      <tr>
+        <td width="15"><img src="<%=image_path('index_32.gif')%>" width="9" height="9"></td>
+        <td valign="bottom" class="title">开平组-已完成任务列表</td>
+      </tr>
+    </table></td>
+  </tr>
+</table>
+<br>
+<table width="100%"  border="0" align="center" cellpadding="0" cellspacing="0">
+  <tr>
+    <td class="td_page">
+       <%= form_tag("/plans/list/department", :class => 'form-horizontal') do -%>
+        <%= hidden_field_tag "department", "1"%>
+        任务状态：
+        <select name="status" id="status">
+          <option value="1" <%if @view_params[:history] == 1%>selected<%end%>>未完成</option>
+          <option value="2" <%if @view_params[:history] == 2%>selected<%end%>>已完成</option>
+          <option value="-1" <%if @view_params[:history] == -1%>selected<%end%>>待发布</option>
+        </select>
+        
+      任务完成时间：
+      <input type="date" id="finish_at" class="input" size="10" value="<%=@view_params[:finish_at]%>"/>    
+      <input name="search" id="search" type="button" class="buttonface02" value="查询">
+      <%= link_to "创建计划", "/plans/search/tapes"%>
+      <%end%>
+    </td>
+  </tr>
+</table>
+<br>
+<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
+  <tr> 
+    <td nowrap class="td_top">#</td>
+    <td nowrap class="td_top">材质</td>
+    <td nowrap class="td_top">零件号</td>
+    <td nowrap class="td_top">钢卷规格</td>
+     <td nowrap class="td_top">加工规格</td>
+     <td nowrap class="td_top">张数</td>
+     <td nowrap class="td_top">完工日期</td>
+     <td nowrap class="td_top">送往单位</td>
+     <td nowrap class="td_top">备注</td>
+     <td nowrap class="td_top">任务状态</td>
+     <% if @view_params[:history] == 2%>
+      <td nowrap class="td_top">亏损</td>
+     <%end%>
+     <td nowrap class="td_top">实际张数</td>
+     <td nowrap class="td_top">操作</td>
+  </tr>
+  <%@plans.each_with_index do|plan,index|%>
+    <%if @plans[index-1].tape_merge != @plans[index].tape_merge%>
+      <tr><td class="td_01_plan" colspan="13"></td></tr>
+    <%end%>
+    
+    <tr <%if plan.is_urgency == 1%>style="color:red"<%elsif plan.status == 3%>style="color:green"<%end%>> 
+      <td class="td_01" id="id" width="3px"><%=plan.id%></td>
+      <td class="td_01" id="texture">
+        <%=plan.tape.texture%>
+      </td>
+      <td class="td_01" id="tape_num">
+        <%=plan.tape.tape_num%>
+      </td>
+      <td class="td_01" id="size">
+        <%=plan.tape.thickness%>x<%=plan.tape.wide%>x<%=plan.tape.length%>
+      </td>
+      <td class="td_01" id="new_size">
+        <%if index == 0 or (@plans[index-1].nickelclad.length!=plan.nickelclad.length or @plans[index-1].nickelclad.thickness!=plan.nickelclad.thickness or @plans[index-1].nickelclad.wide!=plan.nickelclad.wide)%>
+
+          <%=plan.nickelclad.thickness%>x<%=plan.nickelclad.wide%>x<%=plan.nickelclad.length%>
+        <%end%>
+      </td>
+      <td class="td_01" id="final_sheet">
+          <%=plan.nickelclad.real_final_sheet%>
+      </td>
+
+      <td class="td_01" id="finish_at">
+        <%=plan.finish_at%>
+      </td>
+      <td class="td_01" id="finish_at"><%=plan.nickelclad.to%></td>
+      <td class="td_01" id="remark" style="word-wrap:break-word;"><%=plan.remark%></td>
+      <td class="td_01"><%=@plan_status_name[plan.status]%></td>
+       <% if @view_params[:history] == 2%>
+        <td class="td_01">
+          <%= (plan.nickelclad.thickness.to_f * (plan.nickelclad.wide.to_f / 1000) * (plan.nickelclad.length.to_f / 1000) * 7.85 * plan.nickelclad.real_final_sheet.to_i - (plan.tape.out_weight.to_i - plan.tape.residue_weight.to_i)).to_i %>
+        </td>
+      <%end%>
+      <td class="td_01">
+            <%plan.nickelclad.bags.each_with_index do|bag, index|%>
+              <%=bag.sheet%>
+              <%if index != plan.nickelclad.bags.length-1%>
+              +
+              <%end%>
+            <%end%>
+          </td>
+      <td class="td_01">
+        <%if @view_params[:history] == 2%>
+          <%= link_to '详细', plan_path(plan) %>
+        <%elsif @view_params[:history] == 1%>
+          <%= link_to '编辑', edit_plan_path(plan) %>
+        <%else%>
+          <%= link_to '编辑', edit_plan_path(plan) %>
+          <%=check_box_tag "plan_id", "#{plan.id}"%>
+        <%end%>
+     </td>
+    </tr>
+  <%end%> 
+  <%if @view_params[:history] == -1%> 
+    <tr>
+      <td colspan="13" align="right"><button id="create_plan" type="button" class="btn btn-info">下计划</button></td>
+    <tr>   
+  <%end%>
+</table>
+<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
+  <tr> 
+    <td nowrap width="100%" class="td_top"><span style="color:red">注：红色字体为紧急件-请优先处理【绿色分割条内计划为同一规格钢卷】</span></td>
+  </tr>
+</table>
+<table width="100%"  border="0" cellpadding="0" cellspacing="0" class="table02" align="center">
+  <tr>
+    <td height="30" align="right">
+      <%= paginate @plans %>
+    </td>
+  </tr>
+</table>
+
+ <script type="text/javascript">
+      $("#search").click(function (){
+          var status = $('#status').val()
+          var first = $('#finish_at').val()
+          // alert(first)
+          location.href = "/plans?finish_at="+first+"&department=<%=@view_params[:department]%>&history="+status;
+        });
+      $("#create_plan").click(function (){
+        var s='';
+        var i = 0;
+        $('input[name="plan_id"]:checked').each(function(){
+          s+=$(this).val()+',';
+          i += 1;
+        });
+        if(i < 1){
+          alert("至少选择1条计划");
+        }else{
+          location.href = "/plans/create/"+s
+          // location.href = "/plans/send/message?message="+s+"&employee_id="+employee_id;
+        }
+        
+      });
+</script>
+
+

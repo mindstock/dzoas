@@ -1,0 +1,14 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Is standard:</strong>
+  <%= @quclity_check.is_standard %>
+</p>
+
+<p>
+  <strong>Remark:</strong>
+  <%= @quclity_check.remark %>
+</p>
+
+<%= link_to 'Edit', edit_quclity_check_path(@quclity_check) %> |
+<%= link_to 'Back', quclity_checks_path %>

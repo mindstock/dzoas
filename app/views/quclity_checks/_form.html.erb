@@ -1,0 +1,25 @@
+<%= form_for(@quclity_check) do |f| %>
+  <% if @quclity_check.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@quclity_check.errors.count, "error") %> prohibited this quclity_check from being saved:</h2>
+
+      <ul>
+      <% @quclity_check.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :is_standard %><br>
+    <%= f.number_field :is_standard %>
+  </div>
+  <div class="field">
+    <%= f.label :remark %><br>
+    <%= f.text_field :remark %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

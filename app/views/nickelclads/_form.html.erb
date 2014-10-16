@@ -1,0 +1,41 @@
+<%= form_for(@nickelclad) do |f| %>
+  <% if @nickelclad.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@nickelclad.errors.count, "error") %> prohibited this nickelclad from being saved:</h2>
+
+      <ul>
+      <% @nickelclad.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :thickness %><br>
+    <%= f.text_field :thickness %>
+  </div>
+  <div class="field">
+    <%= f.label :wide %><br>
+    <%= f.text_field :wide %>
+  </div>
+  <div class="field">
+    <%= f.label :length %><br>
+    <%= f.text_field :length %>
+  </div>
+  <div class="field">
+    <%= f.label :to %><br>
+    <%= f.text_field :to %>
+  </div>
+  <div class="field">
+    <%= f.label :allowance %><br>
+    <%= f.text_field :allowance %>
+  </div>
+  <div class="field">
+    <%= f.label :is_declicacy %><br>
+    <%= f.number_field :is_declicacy %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

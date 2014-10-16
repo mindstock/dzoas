@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  title: MyString
+  content: MyString
+  complete_at: MyString
+  remark: MyString
+  type: 1
+  status: 1
+
+two:
+  title: MyString
+  content: MyString
+  complete_at: MyString
+  remark: MyString
+  type: 1
+  status: 1
