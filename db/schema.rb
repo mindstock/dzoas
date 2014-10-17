@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141016060701) do
+ActiveRecord::Schema.define(version: 20141017074333) do
 
   create_table "bags", force: true do |t|
     t.string   "sheet"
@@ -96,6 +96,7 @@ ActiveRecord::Schema.define(version: 20141016060701) do
     t.string   "real_final_sheet"
     t.string   "merge",            default: "0"
     t.string   "tape_merge"
+    t.integer  "place_num"
   end
 
   create_table "powers", force: true do |t|

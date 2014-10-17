@@ -78,6 +78,13 @@ class PlansController < ApplicationController
     render :json => json, status => "200 ok"
   end
 
+  def add_place_num
+    plan_id, place_num = params[:plan_id], params[:place_num]
+    update_place_num plan_id, place_num
+    plan_update_status_by_tape params[:tape_id].to_i, 2
+    redirect_to "/plans/spread/1"
+  end
+
   def update_status
     @plan = Plan.find(params["id"])
     id, status = params["id"], params["status"].to_i
@@ -158,6 +165,8 @@ class PlansController < ApplicationController
     create_plan_by_ids params['ids'].split(',')
     redirect_to '/plans?depratement=1'
   end
+
+
 
   # PATCH/PUT /plans/1
   # PATCH/PUT /plans/1.json

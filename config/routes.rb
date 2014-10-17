@@ -46,6 +46,7 @@ Dzoas::Application.routes.draw do
   post '/plans/:id' => 'plans#update'
   get '/plans/create/:ids' => 'plans#create_plan'
   get '/plans/spread/delete/:tape_merge' => 'plans#del'
+  post '/plans/spread/update/plance_num/:plan_id' => 'plans#add_place_num'
 
   resources :tapes
   get '/tapes/store/upload_file' => 'tapes#upload_file'

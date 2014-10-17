@@ -80,6 +80,10 @@ module PlansHelper
 		plan.update(params)
 	end
 
+	def update_place_num id, place_num
+		plan_update_by_hash id, {place_num: place_num}		
+	end
+
 	def edit_nickelclad merge, params
 		merge = Nickelclad.find_by(merge: merge)
 		merge.update(params)

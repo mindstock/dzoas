@@ -130,9 +130,35 @@
                 </div>
                 <%end%>
               </div>
+            <%elsif plan.status == 1%>
+              <a href="#up_tape" class="<%=@plan_status_class[plan.status]%> btn-xs" data-toggle="modal">
+              上料</a>
+              <div id="up_tape" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <%= form_tag("/plans/spread/update/plance_num/#{plan.id}", :class => 'form-horizontal', :id=>"plan_complete") do -%>
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                        <h4 class="modal-title">记录钢卷位置</h4>
+                      </div>
+                      <div class="modal-body">
+                        <label class="col-sm-2 control-label">钢卷位置</label>
+                        <div class="col-sm-2">
+                          <%= text_field_tag 'place_num',"", :class => "required"%>
+                          <%= hidden_field_tag "tape_id", "#{plan.tape.id}"%>
+                        </div>
+                      </div>
+                      <div class="modal-footer">
+                      <%= submit_tag '确定', :class => 'btn btn-success'%>
+                        <a href="/plans/spread/1" class="btn btn-info">返回</a>
+                      </div>
+                    </div>
+                </div>
+                <%end%>
+              </div>
             <%else%>
               <button type="button" class="<%=@plan_status_class[plan.status]%> btn-xs" onclick="update_status(<%=plan.id%>,<%=plan.status+1%>)">
-                <%=@plan_status_button[plan.status]%>
+                <%=@plan_status_button[plan.status]%><%if plan.place_num.to_i != 0%>-<%=plan.place_num%><%end%>
               </button>
             <%end%>
             <%if plan.status == 3%>
