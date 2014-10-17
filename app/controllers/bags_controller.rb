@@ -20,8 +20,6 @@ class BagsController < ApplicationController
   end
 
   def create
-    puts ">>>>>>>>>>>>>>>>>>>>"
-    puts bag_params
     unless bag_params[:sheet].empty?
       @bag = Bag.new(bag_params)
       @bag.save 
