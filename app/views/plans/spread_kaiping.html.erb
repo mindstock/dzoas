@@ -98,9 +98,43 @@
           <%if @view_params[:history] == 2%>
             <%= link_to '详细', "/plans/#{plan.id}?type=1" %>
           <%else%>
-            <button type="button" class="<%=@plan_status_class[plan.status]%> btn-xs" onclick="update_status(<%=plan.id%>,<%=plan.status+1%>)">
-            <%=@plan_status_button[plan.status]%>
-            </button>
+            <% if plan.status.to_i == 3%>
+              <a href="#complete" class="<%=@plan_status_class[plan.status]%> btn-xs" data-toggle="modal">
+              完成</a>
+              <div id="complete" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <%= form_tag('/bags', :class => 'form-horizontal', :id=>"plan_complete") do -%>
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                        <h4 class="modal-title">记录开平张数</h4>
+                      </div>
+                      <div class="modal-body">
+                        <%= hidden_field_tag "nickelclad_id", "#{plan.nickelclad.id}"%>
+                        <label class="col-sm-2 control-label">是否板头</label>
+                        <div class="col-sm-2">
+                          <%= radio_button_tag "is_nickelclad_top", 1%> 是
+                          <%= radio_button_tag "is_nickelclad_top", 0, true%>否
+                        </div>
+                        <label class="col-sm-2 control-label">张数/板头</label>
+                        <div class="col-sm-2">
+                          <%= text_field_tag 'sheet',"", :class => "required"%>
+                        </div>
+                      </div>
+                      <div class="modal-footer">
+                        <%= submit_tag '继续', :class => 'btn btn-success'%>
+                        <button type="button" class="btn btn-success" onclick="complete_plan(<%=plan.id%>)">完成</button>
+                        <a href="/plans/spread/1" class="btn btn-info">返回</a>
+                      </div>
+                    </div>
+                </div>
+                <%end%>
+              </div>
+            <%else%>
+              <button type="button" class="<%=@plan_status_class[plan.status]%> btn-xs" onclick="update_status(<%=plan.id%>,<%=plan.status+1%>)">
+                <%=@plan_status_button[plan.status]%>
+              </button>
+            <%end%>
             <%if plan.status == 3%>
               <a href="/quclity_checks/new?plan_id=<%=plan.id%>" class="btn btn-info btn-xs" data-toggle="modal">质检</a>
             <%end%>
@@ -122,7 +156,7 @@
   <tr> 
     <td class="td_01" colspan="8">
 
-      <a href="#myModal" class="btn btn-success btn-sm" data-toggle="modal">原料规格短信通知</a>
+      <a href="#myModal" class="btn btn-success btn-xs" data-toggle="modal">原料规格短信通知</a>
       <!-- Modal -->
       <div id="myModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -146,7 +180,7 @@
     </td>
   </tr>
   <tr>
-    <td class="td_01" rowspan="2">计划员</td>
+    <td class="td_01" rowspan="1">计划员</td>
      <td class="td_01" >
       <button type="button" class="btn btn-success btn-xs" data-toggle="modal" onclick="phone_message(1)">短信通知</button>
     </td>
@@ -162,20 +196,6 @@
     <td class="td_01" >
       <button type="button" class="btn btn-success btn-xs" data-toggle="modal" onclick="phone_message(3)">短信通知</button>
     </td>
-  </tr>
-  <tr>
-   <td class="td_01">
-    <a href="skype:+8615707287529?call" onclick="return skypeCheck();" class="btn btn-success btn-xs"><img src="http://mystatus.skype.com/smallicon/mindstock007" style="border: none;" width="16" height="16" />电话通知</a>
-   </td>
-    <td class="td_01">
-    <a href="skype:+8615707287529?call" onclick="return skypeCheck();" class="btn btn-success btn-xs"><img src="http://mystatus.skype.com/smallicon/mindstock007" style="border: none;" width="16" height="16" />电话通知</a>
-   </td>
-   <td class="td_01">
-    <a href="skype:+8615707287529?call" onclick="return skypeCheck();" class="btn btn-success btn-xs"><img src="http://mystatus.skype.com/smallicon/mindstock007" style="border: none;" width="16" height="16" />电话通知</a>
-   </td>
-   <td class="td_01">
-    <a href="skype:+8615707287529?call" onclick="return skypeCheck();" class="btn btn-success btn-xs"><img src="http://mystatus.skype.com/smallicon/mindstock007" style="border: none;" width="16" height="16" />电话通知</a>
-   </td>
   </tr>
 </table>
 
@@ -256,6 +276,21 @@
 
   function phone_message(type_id){
     location.href = "/plans/send/message?type=1&employee_id="+type_id
+  }
+
+  function complete_plan(plan_id){
+    var pd = ""
+    var rpd = "123"
+    var sheet = $("#sheet").val();
+    var is_nickelclad_top = $("#is_nickelclad_top").val();
+    pd = prompt("请输入密码：")
+    if(pd != rpd){
+        alert("密码不正确！");
+    }else{
+      location.href = "/plans/spread/complete_plan/"+plan_id+"?sheet="+sheet+"&is_nickelclad_top="+is_nickelclad_top
+      
+    }
+    
   }
     
 

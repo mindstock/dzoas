@@ -4,21 +4,21 @@ BODY {
 	margin-right: 0px;
 	margin-bottom: 0px;
     font-family:"Tahoma";
-    font-size: 16px;
+    font-size: 15px;
 }
 td{
     font-family: "Tahoma"; 
-	font-size: 16px; 
+	font-size: 15px; 
 	/*color:#000000;*/
 	}
 .F01{
     font-family:"Tahoma"; 
-	font-size: 16px; 
+	font-size: 15px; 
 	color:#0D5BA1;
 	}
 .F02{
 	font-family: "Tahoma";
-	font-size: 16px; 
+	font-size: 15px; 
 	color:#FFFFFF;
 	}
 .F002{
@@ -28,29 +28,29 @@ td{
 	}
 .F03{
 	font-family: "Tahoma";
-	font-size: 16px; 
+	font-size: 15px; 
 	color:#FF6600;
 	}
 .F04{
 	font-family: "Tahoma";
-	font-size: 16px; 
+	font-size: 15px; 
 	color:#CC0000;
 	font-weight:bold;
 	}
 .F05{
 	font-family: "Tahoma";
-	font-size: 16px; 
+	font-size: 15px; 
 	color:#009900;
 	}
 .F06{
 	font-family: "Tahoma";
-	font-size: 16px; 
+	font-size: 15px; 
 	color:#444444;
 	font-weight:bold;
 	}
-.title { font-family: "Tahoma";  font-size: 16px; color: #555555; text-decoration: none; font-weight:bold}
-.title02 { font-family: "Tahoma";  font-size: 16px; color: #FFFFFF; text-decoration: none; font-weight:bold}
-.title03 { font-family: "Tahoma";  font-size: 16px; color: #000000; text-decoration: none; font-weight:bold}
+.title { font-family: "Tahoma";  font-size: 15px; color: #555555; text-decoration: none; font-weight:bold}
+.title02 { font-family: "Tahoma";  font-size: 15px; color: #FFFFFF; text-decoration: none; font-weight:bold}
+.title03 { font-family: "Tahoma";  font-size: 15px; color: #000000; text-decoration: none; font-weight:bold}
 .title04 { font-family: "Tahoma";  font-size: 24px; color: #FF6600; text-decoration: none; }
 
 .table01{ 
@@ -67,7 +67,7 @@ td{
 .td_title{
     background-color:#FFFFFF;
 	font-family: "Tahoma";
-	FONT-SIZE: 16px;
+	FONT-SIZE: 15px;
 	color:#315DBD;
 	font-weight:bold;
 	padding: 2px;
@@ -80,7 +80,7 @@ td{
 .td_top{
 	background-image: url(/assets/bg.gif);
 	font-family: "Tahoma";
-	FONT-SIZE: 16px;
+	FONT-SIZE: 15px;
 	color:#FFFFFF;
 	padding: 4px;
 	height:23px;
@@ -102,7 +102,7 @@ td{
 .td04 {
 	background-color: #F2F2F2;
 	font-family: "Tahoma";
-	font-size: 16px;
+	font-size: 15px;
 	color:#000000;
 }
 .td05{
@@ -114,7 +114,7 @@ td{
 .td07{
     background-color:#F7FBFF;
 	font-family: "Tahoma";
-	FONT-SIZE: 16px; 
+	FONT-SIZE: 15px; 
 	color:#000000;
 	padding: 4px;
 	border-collapse:collapse;
@@ -125,7 +125,7 @@ td{
 }
 .td08 {
 	font-family: "Tahoma";
-	font-size: 16px;
+	font-size: 15px;
 	background-color: #FFFFFF;
 	padding: 4px;
 	line-height:120%;
@@ -138,7 +138,7 @@ td{
 .td_09{
     background-color:#AFBFC5;
 	font-family: "Tahoma";
-	FONT-SIZE: 16px;
+	FONT-SIZE: 15px;
 	color:#000000;
 	padding: 4px;
 	border-collapse:collapse;
@@ -150,7 +150,7 @@ td{
 .td_10{
     background-color:#F1F4F5;
 	font-family: "Tahoma";
-	FONT-SIZE: 16px;
+	FONT-SIZE: 15px;
 	color:#000000;
 	padding: 4px;
 	border-collapse:collapse;
@@ -162,7 +162,7 @@ td{
 .td_11{
     background-color:#E6E6CF;
 	font-family: "Tahoma";
-	FONT-SIZE: 16px;
+	FONT-SIZE: 15px;
 	color:#000000;
 	padding: 4px;
 	border-collapse:collapse;
@@ -174,7 +174,7 @@ td{
 .td_01{
     background-color:#F7FBFF;
 	font-family: "Tahoma";
-	FONT-SIZE: 16px; 
+	FONT-SIZE: 15px; 
 	padding: 4px;
 	border-collapse:collapse;
 	border-top: 0px solid;
@@ -198,7 +198,7 @@ td{
 .td_01_break{
     background-color:#F7FBFF;
 	font-family: "Tahoma";
-	FONT-SIZE: 16px; 
+	FONT-SIZE: 15px; 
 	padding: 4px;
 	border-collapse:collapse;
 	border-top: 0px solid;
@@ -211,7 +211,7 @@ td{
 .td_02{
     background-color:#F7FBFF;
 	font-family: "Tahoma";
-	FONT-SIZE: 16px; 
+	FONT-SIZE: 15px; 
 	color:#000000;
 	padding: 4px;
 	border-collapse:collapse;
@@ -223,7 +223,7 @@ td{
 .td_form01{
     background-color:#C3DAF2;
 	font-family: "Tahoma";
-	FONT-SIZE: 16px;
+	FONT-SIZE: 15px;
 	color:#000000;
 	padding: 0px;
 	border-collapse:collapse;
@@ -236,7 +236,7 @@ td{
 .td_form02{
     background-color:#E4EFF7;
 	font-family: "Tahoma";
-	FONT-SIZE: 16px;
+	FONT-SIZE: 15px;
 	color:#000000;
 	padding: 0px;
 	border-collapse:collapse;
@@ -248,7 +248,7 @@ td{
 .td_page{
     background-color:#F4F4F4;
 	font-family: "Tahoma";
-	FONT-SIZE: 16px; 
+	FONT-SIZE: 15px; 
 	color:#000000;
 	padding: 4px;
 	border-collapse:collapse;
@@ -258,7 +258,7 @@ td{
 	border-left: 1px #CCCCCC solid;
 }
 .input{ 
-	font-size: 16px; 
+	font-size: 15px; 
 	font-family:"Tahoma"; 
 	HEIGHT: 20px; 
 	border:1px solid #7F9DB9;
@@ -270,7 +270,7 @@ td{
 	border:1px solid #7F9DB9;
 }
 .input3{ 
-	font-size: 16px; 
+	font-size: 15px; 
 	font-family:"Tahoma"; 
 	HEIGHT: 20px; 
 	border:1px solid #1C5180; 
@@ -285,7 +285,7 @@ td{
 }
 .buttonface{
 	font-family:"Tahoma";
-	FONT-SIZE: 16px;
+	FONT-SIZE: 15px;
 	color:#000000;
 	HEIGHT: 20px;
 	background-image: url(/assets/bg_20.gif);
@@ -297,7 +297,7 @@ td{
 }
 .buttonface02{
 	font-family:"Tahoma";
-	FONT-SIZE: 16px;
+	FONT-SIZE: 15px;
 	color:#000000;
 	HEIGHT: 20px;
 	background-image: url(/assets/bg_20.gif);
@@ -310,40 +310,40 @@ td{
 select {
 	CURSOR: auto;
 	COLOR: #000000;
-	font-size: 16px;
+	font-size: 15px;
 	font-family:"Tahoma";
 }
 textarea {
-	font-size: 16px;
+	font-size: 15px;
 	font-family:"Tahoma";
 	overflow: auto;
 	border:1px solid #7F9DB9;
 }
 
-a:link {font-family: "Tahoma";font-size: 16px;color: #0D5BA1;text-decoration: none;}
-a:active {font-family: "Tahoma";font-size: 16px;color: #000000;text-decoration: none;}
-a:visited {font-family: "Tahoma";font-size: 16px;color: #0D5BA1;text-decoration: none;}
-a:hover {font-family: "Tahoma";font-size: 16px;color: #000000;text-decoration: none;}
+a:link {font-family: "Tahoma";font-size: 15px;color: #0D5BA1;text-decoration: none;}
+a:active {font-family: "Tahoma";font-size: 15px;color: #000000;text-decoration: none;}
+a:visited {font-family: "Tahoma";font-size: 15px;color: #0D5BA1;text-decoration: none;}
+a:hover {font-family: "Tahoma";font-size: 15px;color: #000000;text-decoration: none;}
 
-A.a01:link {font-family: "Tahoma";font-size: 16px;color: #FFFFFF;text-decoration: none}
-A.a01:active {font-family: "Tahoma";font-size: 16px;color: #FFFFFF;text-decoration: none}
-A.a01:visited {font-family: "Tahoma";font-size: 16px;color: #FFFFFF;text-decoration: none}
-A.a01:hover {font-family: "Tahoma";font-size: 16px;color: #FFFFFF;text-decoration: none}
+A.a01:link {font-family: "Tahoma";font-size: 15px;color: #FFFFFF;text-decoration: none}
+A.a01:active {font-family: "Tahoma";font-size: 15px;color: #FFFFFF;text-decoration: none}
+A.a01:visited {font-family: "Tahoma";font-size: 15px;color: #FFFFFF;text-decoration: none}
+A.a01:hover {font-family: "Tahoma";font-size: 15px;color: #FFFFFF;text-decoration: none}
 
-A.a02:link { font-family:"Tahoma"; font-size: 16px; color: #A3BADA; text-decoration: none}
-A.a02:active { font-family:"Tahoma"; font-size: 16px; color: #FFFFFF; text-decoration: none}
-A.a02:visited { font-family:"Tahoma"; font-size: 16px; color: #A3BADA; text-decoration: none}
-A.a02:hover { font-family:"Tahoma"; font-size: 16px; color: #FFFFFF; text-decoration: none}
+A.a02:link { font-family:"Tahoma"; font-size: 15px; color: #A3BADA; text-decoration: none}
+A.a02:active { font-family:"Tahoma"; font-size: 15px; color: #FFFFFF; text-decoration: none}
+A.a02:visited { font-family:"Tahoma"; font-size: 15px; color: #A3BADA; text-decoration: none}
+A.a02:hover { font-family:"Tahoma"; font-size: 15px; color: #FFFFFF; text-decoration: none}
 
-A.a03:link { font-family:"Tahoma"; font-size: 16px; color: #000000; text-decoration: none}
-A.a03:active { font-family:"Tahoma"; font-size: 16px; color: #000000; text-decoration: none}
-A.a03:visited { font-family:"Tahoma"; font-size: 16px; color: #000000; text-decoration: none}
-A.a03:hover { font-family:"Tahoma"; font-size: 16px; color: #000000; text-decoration: none}
+A.a03:link { font-family:"Tahoma"; font-size: 15px; color: #000000; text-decoration: none}
+A.a03:active { font-family:"Tahoma"; font-size: 15px; color: #000000; text-decoration: none}
+A.a03:visited { font-family:"Tahoma"; font-size: 15px; color: #000000; text-decoration: none}
+A.a03:hover { font-family:"Tahoma"; font-size: 15px; color: #000000; text-decoration: none}
 
-A.a14:link { font-family:"Tahoma"; font-size: 16px; color: #2777BE; text-decoration: none; font-weight:bold}
-A.a14:active { font-family:"Tahoma"; font-size: 16px; color: #FF6600; text-decoration: none; font-weight:bold}
-A.a14:visited { font-family:"Tahoma"; font-size: 16px; color: #2777BE; text-decoration: none; font-weight:bold}
-A.a14:hover { font-family:"Tahoma"; font-size: 16px; color: #FF6600; text-decoration: none; font-weight:bold}
+A.a14:link { font-family:"Tahoma"; font-size: 15px; color: #2777BE; text-decoration: none; font-weight:bold}
+A.a14:active { font-family:"Tahoma"; font-size: 15px; color: #FF6600; text-decoration: none; font-weight:bold}
+A.a14:visited { font-family:"Tahoma"; font-size: 15px; color: #2777BE; text-decoration: none; font-weight:bold}
+A.a14:hover { font-family:"Tahoma"; font-size: 15px; color: #FF6600; text-decoration: none; font-weight:bold}
 
 .sec1 { 
     background-color: #E9E9E9;
