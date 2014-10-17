@@ -45,6 +45,7 @@ Dzoas::Application.routes.draw do
   get '/plans/send/message' => 'plans#send_message'
   post '/plans/:id' => 'plans#update'
   get '/plans/create/:ids' => 'plans#create_plan'
+  get '/plans/spread/delete/:tape_merge' => 'plans#del'
 
   resources :tapes
   get '/tapes/store/upload_file' => 'tapes#upload_file'

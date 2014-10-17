@@ -126,6 +126,7 @@
         <%elsif @view_params[:history] == 1%>
           <%= link_to '编辑', edit_plan_path(plan) %>
         <%else%>
+          <a href="/plans/spread/delete/<%=plan.tape_merge%>" onClick="if(confirm('删除将删除代发布所有关联计划，是否确认？')) return true; return false;">删除</a>
           <%= link_to '编辑', edit_plan_path(plan) %>
           <%=check_box_tag "plan_id", "#{plan.id}"%>
         <%end%>

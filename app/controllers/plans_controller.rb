@@ -174,12 +174,9 @@ class PlansController < ApplicationController
 
   # DELETE /plans/1
   # DELETE /plans/1.json
-  def destroy
-    @plan.destroy
-    respond_to do |format|
-      format.html { redirect_to plans_url }
-      format.json { head :no_content }
-    end
+  def del
+    del_plan params[:tape_merge]
+    redirect_to '/plans?history=-1'
   end
 
   def send_message

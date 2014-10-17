@@ -100,6 +100,20 @@ module PlansHelper
 		plan.update(status: status)
 	end
 
+	def del_plan tape_merge
+		plans = Plan.where(tape_merge: tape_merge, status: -1)
+		tape_id = []
+		plans.each do |plan|
+			tape_id << plan.tape_id
+			plan.destroy
+			plan.nickelclad.destroy
+		end
+		tape_id.uniq.each do |id|
+			tape = Tape.find(id)
+			tape.update(status: 0)
+		end
+	end
+
 	def update_final_sheet final_sheet, real_final_sheet, merge
 		sql = "SELECT * FROM plans where tape_merge='#{merge}' and final_sheet <= '#{final_sheet}' limit 2;"
 		plans = Plan.find_by_sql(sql)
