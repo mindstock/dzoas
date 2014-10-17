@@ -2,7 +2,7 @@ require 'spreadsheet'
 
 module TapesHelper
 	# File_root = '/js/sydz/dzoas/tapes.xls'
-	File_root = '/home/wwwroot/www.dazhangoa.com/public/upload/public_file/tapes.xls'
+	File_root = '/home/wwwroot/dzoas/public/upload/public_file/tapes.xls'
 
 	def get_tapes_by_ids ids
 		tapes = []
