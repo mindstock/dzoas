@@ -79,9 +79,10 @@ class PlansController < ApplicationController
   end
 
   def add_place_num
-    plan_id, place_num = params[:plan_id], params[:place_num]
-    update_place_num plan_id, place_num
-    plan_update_status_by_tape params[:tape_id].to_i, 2
+    tape_id, place_num = params[:tape_id].to_i, params[:place_num]
+    status = 2
+    plan_update_status_by_tape tape_id, status
+    update_place_num tape_id, place_num, status
     redirect_to "/plans/spread/1"
   end
 
@@ -113,7 +114,6 @@ class PlansController < ApplicationController
       bag.save
     end
     
-    
     #更新任务状态
     update_status_by_status plan_id, 4  #更新任务状态
 
@@ -122,16 +122,18 @@ class PlansController < ApplicationController
     #更新完成时间 更新计划剪切件数
     plan_update_by_hash plan_id.to_i, {real_finish_at: Time.now.strftime("%Y-%m-%d %H:%M"), real_final_sheet: real_final_sheet}
     #计算剩余卷重= 
-    residue_weight = 0
     out_weight = tape.out_weight.to_i
-    _residue_weight = tape.residue_weight.to_i
+    residue_weight = _residue_weight = tape.residue_weight.to_i
 
     plan_num = Plan.where(tape_id: tape, status: [-1, 0, 1, 2, 3]).count
-    if plan_num > 0 or tape.status == 1
-      residue_weight = tape.residue_weight - (real_final_sheet * 7.85 * (nickelclad.length.to_f / 1000) * (nickelclad.wide.to_f / 1000) * nickelclad.thickness.to_f)
+    if tape.status == 1
+      residue_weight = _residue_weight - (real_final_sheet * 7.85 * (nickelclad.length.to_f / 1000) * (nickelclad.wide.to_f / 1000) * nickelclad.thickness.to_f)
       out_weight = _residue_weight - residue_weight
     else
-      out_weight = out_weight + _residue_weight
+      if plan_num == 0
+        out_weight = out_weight + _residue_weight
+        residue_weight = 0
+      end
     end
     _hash = {
       "out_weight" => out_weight,

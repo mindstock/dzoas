@@ -72,7 +72,7 @@ module PlansHelper
 	end
 
 	def plan_update_status_by_tape tape_id, status
-		Plan.connection.execute("update plans set status = '#{status}' where tape_id=#{tape_id}")
+		Plan.connection.execute("update plans set status = '#{status}' where tape_id=#{tape_id} and status=#{status - 1}")
 	end
 
 	def plan_update_by_hash id, params
@@ -80,8 +80,8 @@ module PlansHelper
 		plan.update(params)
 	end
 
-	def update_place_num id, place_num
-		plan_update_by_hash id, {place_num: place_num}		
+	def update_place_num id, place_num, status
+		Plan.connection.execute("update plans set place_num = #{place_num} where tape_id=#{id} and status=#{status}")
 	end
 
 	def edit_nickelclad merge, params
@@ -100,6 +100,10 @@ module PlansHelper
 	end
 
 	def update_status_by_status id, status
+		if status == 3
+			num = Plan.connection.execute("select count(id) as num from plans where status = #{status}").to_a[0][0]
+			return if num >= 0
+		end 
 		plan = Plan.find_by(id: id)
 		plan.update(status: status)
 	end
