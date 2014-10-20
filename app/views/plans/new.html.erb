@@ -74,7 +74,10 @@
           </td>
           <td class="td_form01">送往单位</td>
           <td class="td_form02">
-            <%= text_field_tag "to#{tape.id}-1", "", :class => "input required"%>
+            <%= radio_button_tag "to#{tape.id}-1", '剪切', :class => "required"%> 剪切
+            <%= radio_button_tag "to#{tape.id}-1", '留库', :class => "required"%>留库
+            <%= radio_button_tag "to#{tape.id}-1", '其他', true, :class => "required"%>
+            其他：<%= text_field_tag "tmp_to#{tape.id}-1", "", :class => "input"%>
           </td>
         </tr>
         <tr>
@@ -89,15 +92,15 @@
           </td>
           <td class="td_form01">公差</td>
           <td class="td_form02">
-            <%= radio_button_tag "allowance#{tape.id}-1", '+0.5'%> +0.5
-            <%= radio_button_tag "allowance#{tape.id}-1", '-0.5', true%> -0.5
-            <%= radio_button_tag "allowance#{tape.id}-1", '+1', true%> +1
+            <%= radio_button_tag "allowance#{tape.id}-1", '+0.5', true%> +0.5
+            <%= radio_button_tag "allowance#{tape.id}-1", '-0.5'%> -0.5
+            <%= radio_button_tag "allowance#{tape.id}-1", '+1'%> +1
           </td>
         </tr>
         <tr>
           <td height="24" class="td_form01">完工日期</td>
           <td class="td_form02">
-            <input type="date" name="finish_at<%=tape.id%>-1" id="finish_at<%=tape.id%>-1" class="input required" />
+            <input type="date" name="finish_at<%=tape.id%>-1" id="finish_at<%=tape.id%>-1" value="<%=@tomorrow%>" class="input required" />
           </td>
           <td class="td_form01">备注</td>
           <td class="td_form02" colspan="3">
@@ -141,5 +144,6 @@
   }
   $().ready(function() { 
         $("#plan_create").validate(); 
-      }); 
+  }); 
+
 </script>

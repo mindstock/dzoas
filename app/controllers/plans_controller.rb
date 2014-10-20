@@ -44,6 +44,7 @@ class PlansController < ApplicationController
     tape_ids = params[:tapes_id].split(",")
     @tapes = get_tapes_by_ids tape_ids
     @plan = Plan.new
+    @tomorrow = get_tomorrow
     @new_size, @department_id = params[:new_size], params["department"]
     @ids, @tape_merge = params[:tapes_id], "#{tape_ids.length}-#{Time.now.strftime("%Y%m%d%H%M%S")}"
   end
@@ -178,7 +179,8 @@ class PlansController < ApplicationController
     plan_update_by_hash plan_id, params.permit(:final_sheet, :is_urgency, :finish_at, :remark)
     tape_update_by_hash plan.tape.id, params.permit(:status)
 
-    edit_nickelclad plan.tape_merge, params.permit(:is_delicacy, :allowance, :to)
+    edit_nickelclad plan.nickelclad.id, params.permit(:is_delicacy, :allowance, :to)
+    edit_nickelclad_thickness plan.tape_merge,  params.permit(:size)[:size].split("*")[0]
     edit_nickelclad_length plan.tape_merge, plan.nickelclad.length, params.permit(:size)[:size].split("*")[2]
     redirect_to '/plans'
   end

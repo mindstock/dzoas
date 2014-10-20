@@ -95,7 +95,7 @@ body{padding:0;margin:0;}
 			                <td>
 			                	<table width="100%" border="0" cellspacing="0" cellpadding="0">
 			                        <tr>
-			                          <td width="19"><img id="top_3" onClick="menu('menu_1','top_3');" src="<%=image_path("tree_11.gif")%>" width="19" height="20"></td>
+			                          <td width="19"><img id="top_1" onClick="menu('menu_1','top_1');" src="<%=image_path("tree_11.gif")%>" width="19" height="20"></td>
 			                          <td width="19"><img src="<%=image_path("tree_27.gif")%>" width="19" height="20"></td>
 			                          <td nowrap>库存管理</td>
 			                        </tr>
@@ -130,58 +130,58 @@ body{padding:0;margin:0;}
 							  
 								<table width="100%" border="0" cellspacing="0" cellpadding="0">
 			                        <tr>
-			                          <td width="19"><img id="top_3" onClick="menu('menu_3','top_3');" src="<%=image_path("tree_11.gif")%>" width="19" height="20"></td>
+			                          <td width="19"><img id="top_2" onClick="menu('menu_2','top_2');" src="<%=image_path("tree_11.gif")%>" width="19" height="20"></td>
 			                          <td width="19"><img src="<%=image_path("tree_27.gif")%>" width="19" height="20"></td>
 			                          <td nowrap>计划任务</td>
 			                        </tr>
 			                      </table>
-								  <div id="menu_3" <%if user_session[:menu].to_i != 3%>style="DISPLAY: none"<%else%>style="DISPLAY: block"<%end%>>
-								  <table width="100%" border="0" cellspacing="0" cellpadding="0">
-									  <tr>
-										<td width="19"><img src="<%=image_path("tree_06.gif")%>" width="19" height="20"></td>
-										<td width="19"><img src="<%=image_path("tree_07.gif")%>" width="19" height="20"></td>
-										<td width="19"><img src="<%=image_path("tree_08.gif")%>" width="19" height="20"></td>
-										<td nowrap><a href="/plans?menu=3" class="a03">开平组</a></td>
-									  </tr>
-									</table>
-									<table width="100%" border="0" cellspacing="0" cellpadding="0">
-									  <tr>
-										<td width="19"><img src="<%=image_path("tree_06.gif")%>" width="19" height="20"></td>
-										<td width="19"><img src="<%=image_path("tree_07.gif")%>" width="19" height="20"></td>
-										<td width="19"><img src="<%=image_path("tree_08.gif")%>" width="19" height="20"></td>
-										<td nowrap><a href="../html/worktime/leavelist_1.htm" target="mainFrame" class="a03">剪切组</a></td>
-									  </tr>
-									</table>
-									<table width="100%" border="0" cellspacing="0" cellpadding="0">
-									  <tr>
-										<td width="19"><img src="<%=image_path("tree_06.gif")%>" width="19" height="20"></td>
-										<td width="19"><img src="<%=image_path("tree_07.gif")%>" width="19" height="20"></td>
-										<td width="19"><img src="<%=image_path("tree_08.gif")%>" width="19" height="20"></td>
-										<td nowrap><a href="../html/worktime/leavelist_2.htm" target="mainFrame" class="a03">热板</a></td>
-									  </tr>
-									</table>
-									
-													</div>
-			                      
-			                      
-			                      
-			                      
-								  
-								  <table width="100%" border="0" cellspacing="0" cellpadding="0">
-			                        <tr>
-			                          <td width="19"><img id="top_7" onClick="menu('menu_7','top_7');" src="<%=image_path("tree_11.gif")%>" width="19" height="20"></td>
-			                          <td width="19"><img src="<%=image_path("tree_27.gif")%>" width="19" height="20"></td>
-			                          <td nowrap>人事管理</td>
-			                        </tr>
-			                      </table>
-			                      
-							  <div id="menu_7" <%if user_session[:menu].to_i != 7%>style="DISPLAY: none"<%else%>style="DISPLAY: block"<%end%>>
+								  <div id="menu_2" <%if [2, 6, 7].include?user_session[:menu].to_i%>style="DISPLAY: block"<%else%>style="DISPLAY: none"<%end%>>
+									  <table width="100%" border="0" cellspacing="0" cellpadding="0">
+				                         <tr>
+				                           <td width="19">&nbsp;</td>
+				                           <td width="19"><img id="top_6" onClick="menu('menu_6','top_6');" src="<%=image_path("tree_11.gif")%>" width="19" height="20"></td>
+				                           <td width="19"><img src="<%=image_path("tree_08.gif")%>" width="19" height="20"></td>
+				                           <td nowrap>下计划</td>
+				                         </tr>
+				                       </table>
+					                   <div id="menu_6" <%if [6].include?user_session[:menu].to_i%>style="DISPLAY: block"<%else%>style="DISPLAY: none"<%end%>>
+					                         <table width="100%" border="0" cellspacing="0" cellpadding="0">
+					                           <tr>
+					                             <td width="19">&nbsp;</td>
+					                             <td width="19"><img src="<%=image_path("tree_06.gif")%>" width="19" height="20"></td>
+					                             <td width="19"><img src="<%=image_path("tree_07.gif")%>" width="19" height="20"></td>
+					                             <td width="19"><img src="<%=image_path("tree_14.gif")%>" width="19" height="20"></td>
+					                             <td nowrap><a href="/plans?menu=6" class="a03">开平组</a></td>
+					                           </tr>
+					                         </table>
+				                  		</div>
+				                  		<table width="100%" border="0" cellspacing="0" cellpadding="0">
+				                         <tr>
+				                           <td width="19">&nbsp;</td>
+				                           <td width="19"><img id="top_7" onClick="menu('menu_7','top_7');" src="<%=image_path("tree_11.gif")%>" width="19" height="20"></td>
+				                           <td width="19"><img src="<%=image_path("tree_08.gif")%>" width="19" height="20"></td>
+				                           <td nowrap>计划审核</td>
+				                         </tr>
+				                       </table>
+					                   <div id="menu_7" <%if [7].include?user_session[:menu].to_i%>style="DISPLAY: block"<%else%>style="DISPLAY: none"<%end%>>
+					                         <table width="100%" border="0" cellspacing="0" cellpadding="0">
+					                           <tr>
+					                             <td width="19">&nbsp;</td>
+					                             <td width="19"><img src="<%=image_path("tree_06.gif")%>" width="19" height="20"></td>
+					                             <td width="19"><img src="<%=image_path("tree_07.gif")%>" width="19" height="20"></td>
+					                             <td width="19"><img src="<%=image_path("tree_14.gif")%>" width="19" height="20"></td>
+					                             <td nowrap><a href="/plans?menu=7" class="a03">开平组</a></td>
+					                           </tr>
+					                         </table>
+				                  		</div>
+			                   </div>
+							  <div id="menu_3" <%if user_session[:menu].to_i != 3%>style="DISPLAY: none"<%else%>style="DISPLAY: block"<%end%>>
 							  <table width="100%" border="0" cellspacing="0" cellpadding="0">
 									  <tr>
 										<td width="19"><img src="<%=image_path("tree_06.gif")%>" width="19" height="20"></td>
 										<td width="19"><img src="<%=image_path("tree_07.gif")%>" width="19" height="20"></td>
 										<td width="19"><img src="<%=image_path("tree_08.gif")%>" width="19" height="20"></td>
-										<td nowrap><a href="/departments?menu=7"  class="a03">部门管理</td>
+										<td nowrap><a href="/departments?menu=3"  class="a03">部门管理</td>
 									  </tr>
 									</table>
 									<table width="100%" border="0" cellspacing="0" cellpadding="0">
@@ -189,7 +189,7 @@ body{padding:0;margin:0;}
 										<td width="19"><img src="<%=image_path("tree_06.gif")%>" width="19" height="20"></td>
 										<td width="19"><img src="<%=image_path("tree_07.gif")%>" width="19" height="20"></td>
 										<td width="19"><img src="<%=image_path("tree_08.gif")%>" width="19" height="20"></td>
-										<td nowrap><a href="/employees?menu=7" class="a03">人员管理</td>
+										<td nowrap><a href="/employees?menu=3" class="a03">人员管理</td>
 									  </tr>
 									</table>
 
@@ -198,18 +198,18 @@ body{padding:0;margin:0;}
 			                     
 			                     <table width="100%" border="0" cellspacing="0" cellpadding="0">
 			                       <tr>
-			                         <td width="19"><img id="top_12" onClick="menu('menu_12','top_12');" src="<%=image_path("tree_11.gif")%>" width="19" height="20"></td>
+			                         <td width="19"><img id="top_4" onClick="menu('menu_4','top_4');" src="<%=image_path("tree_11.gif")%>" width="19" height="20"></td>
 			                         <td width="19"><img src="<%=image_path("tree_27.gif")%>" width="19" height="20"></td>
 			                         <td nowrap>工作流程</td>
 			                       </tr>
 			                     </table>
-			                     <div id="menu_12" <%if user_session[:menu].to_i != 12%>style="DISPLAY: none"<%else%>style="DISPLAY: block"<%end%>>
+			                     <div id="menu_4" <%if user_session[:menu].to_i != 4%>style="DISPLAY: none"<%else%>style="DISPLAY: block"<%end%>>
 			                       <table width="100%" border="0" cellspacing="0" cellpadding="0">
 			                         <tr>
 			                           <td width="19"><img src="<%=image_path("tree_06.gif")%>" width="19" height="20"></td>
 			                           <td width="19"><img src="<%=image_path("tree_07.gif")%>" width="19" height="20"></td>
 			                           <td width="19"><img src="<%=image_path("tree_08.gif")%>" width="19" height="20"></td>
-			                           <td nowrap><a href="/messages?type=1&menu=12" class="a03">待办事项</a></td>
+			                           <td nowrap><a href="/messages?type=1&menu=4" class="a03">待办事项</a></td>
 			                         </tr>
 			                       </table>
 			                       <table width="100%" border="0" cellspacing="0" cellpadding="0">
@@ -217,24 +217,24 @@ body{padding:0;margin:0;}
 			                           <td width="19"><img src="<%=image_path("tree_06.gif")%>" width="19" height="20"></td>
 			                           <td width="19"><img src="<%=image_path("tree_23.gif")%>" width="19" height="20"></td>
 			                           <td width="19"><img src="<%=image_path("tree_08.gif")%>" width="19" height="20"></td>
-			                           <td nowrap><a href="/messages?type=2&menu=12" class="a03">提醒信息</a></td>
+			                           <td nowrap><a href="/messages?type=2&menu=4" class="a03">提醒信息</a></td>
 			                         </tr>
 			                       </table>
 			                </div>
 			                     <table width="100%" border="0" cellspacing="0" cellpadding="0">
 			                       <tr>
-			                         <td width="19"><img id="top_13" onClick="bottom('menu_13','top_13');" src="<%=image_path("tree_29.gif")%>" width="19" height="20"></td>
+			                         <td width="19"><img id="top_5" onClick="bottom('menu_5','top_5');" src="<%=image_path("tree_29.gif")%>" width="19" height="20"></td>
 			                         <td width="19"><img src="<%=image_path("tree_27.gif")%>" width="19" height="20"></td>
 			                         <td nowrap>系统管理</td>
 			                       </tr>
 			                     </table>
-			                     <div id="menu_13" <%if user_session[:menu].to_i != 13%>style="DISPLAY: none"<%else%>style="DISPLAY: block"<%end%>>
+			                     <div id="menu_5" <%if user_session[:menu].to_i != 5%>style="DISPLAY: none"<%else%>style="DISPLAY: block"<%end%>>
 			                       <table width="100%" border="0" cellspacing="0" cellpadding="0">
 			                         <tr>
 			                           <td width="19">&nbsp;</td>
 			                           <td width="19"><img src="<%=image_path("tree_07.gif")%>" width="19" height="20"></td>
 			                           <td width="19"><img src="<%=image_path("tree_08.gif")%>" width="19" height="20"></td>
-			                           <td nowrap><a href="/employees/sys/users/list?menu=13" class="a03">系统用户</a></td>
+			                           <td nowrap><a href="/employees/sys/users/list?menu=5" class="a03">系统用户</a></td>
 			                         </tr>
 			                       </table>
 			                       <table width="100%" border="0" cellspacing="0" cellpadding="0">
@@ -242,7 +242,7 @@ body{padding:0;margin:0;}
 			                           <td width="19">&nbsp;</td>
 			                           <td width="19"><img src="<%=image_path("tree_07.gif")%>" width="19" height="20"></td>
 			                           <td width="19"><img src="<%=image_path("tree_08.gif")%>" width="19" height="20"></td>
-			                           <td nowrap><a href="/roles?menu=13" class="a03">角色管理</a></td>
+			                           <td nowrap><a href="/roles?menu=5" class="a03">角色管理</a></td>
 			                         </tr>
 			                       </table>
 			                       <table width="100%" border="0" cellspacing="0" cellpadding="0">
@@ -250,7 +250,7 @@ body{padding:0;margin:0;}
 			                           <td width="19">&nbsp;</td>
 			                           <td width="19"><img src="<%=image_path("tree_07.gif")%>" width="19" height="20"></td>
 			                           <td width="19"><img src="<%=image_path("tree_08.gif")%>" width="19" height="20"></td>
-			                           <td nowrap><a href="/powers?menu=13" class="a03">权限管理</a></td>
+			                           <td nowrap><a href="/powers?menu=5" class="a03">权限管理</a></td>
 			                         </tr>
 			                       </table>
 			                       

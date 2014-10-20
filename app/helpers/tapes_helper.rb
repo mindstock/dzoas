@@ -2,7 +2,18 @@ require 'spreadsheet'
 
 module TapesHelper
 	# File_root = '/js/sydz/dzoas/tapes.xls'
-	File_root = '/home/wwwroot/dzoas/public/upload/public_file/tapes.xls'
+	File_root = '/home/wwwroot/dzoas/public/upload/public_file'
+	Excel_name = File_root + "/tapes.xls"
+
+	def mkdirs(path)
+	    if(!File.directory?(path))
+	        if(!mkdirs(File.dirname(path)))
+	            return false;
+	        end
+	        Dir.mkdir(path)
+	    end
+	    return true
+  	end
 
 	def get_tapes_by_ids ids
 		tapes = []
@@ -36,7 +47,8 @@ module TapesHelper
 
 	#上传文件
 	def ex_upload(file_field)
-        File.open(File_root, "wb+") do |f|
+		mkdirs File_root unless Dir.exists? File_root
+        File.open(Excel_name, "wb+") do |f|
             f.write(file_field.read)
         end
     end
@@ -49,7 +61,7 @@ module TapesHelper
     #读取文件
     def read_file
     	Spreadsheet.client_encoding = "UTF-8" 
-		book = Spreadsheet.open File_root
+		book = Spreadsheet.open Excel_name
 		i = 0
 		book.worksheets.each do |sheet|
 		  sheet.each 3 do |row|

@@ -1,4 +1,6 @@
 # encoding: utf-8
+require 'date'
+
 module PlansHelper
 	To_phone = {
       "3" => ["15707287529@139.com"]
@@ -12,6 +14,12 @@ module PlansHelper
   		"5" => ["15707287529@139.com"]
 
   	}
+
+  	def get_tomorrow
+  		_day = Time.new
+  		tomorrow = Date.new(_day.year, _day.month, _day.day) + 1
+  		tomorrow.to_s
+  	end
 
 	def create_html tape_id, index
 		html = <<-EOF
@@ -28,7 +36,10 @@ module PlansHelper
           </td>
           <td class="td_form01">送往单位</td>
           <td class="td_form02">
-            <input type="text" class="input required" id="to#{tape_id}-#{index}" name="to#{tape_id}-#{index}">
+          	<input type="radio" name="to#{tape_id}-#{index}" id="to#{tape_id}-#{index}" value="剪切">剪切
+          	<input type="radio" name="to#{tape_id}-#{index}" id="to#{tape_id}-#{index}" value="留库">剪切
+          	<input type="radio" name="to#{tape_id}-#{index}" id="to#{tape_id}-#{index}" value="其他" checked>其他
+          	<input type="text" class="input" id="tmp_to#{tape_id}-#{index}" name="tmp_to#{tape_id}-#{index}">
           </td>
         </tr>
         <tr>
@@ -54,7 +65,7 @@ module PlansHelper
         <tr>
           <td height="24" class="td_form01">完工日期</td>
           <td class="td_form02">
-            <input type="date" class="input required" name="finish_at#{tape_id}-#{index}" id="finish_at#{tape_id}-#{index}" />
+            <input type="date" class="input required" name="finish_at#{tape_id}-#{index}" value="#{get_tomorrow}" id="finish_at#{tape_id}-#{index}" />
           </td>
           <td class="td_form01">备注</td>
           <td class="td_form02" colspan="3">
@@ -84,14 +95,16 @@ module PlansHelper
 		Plan.connection.execute("update plans set place_num = #{place_num} where tape_id=#{id} and status=#{status}")
 	end
 
-	def edit_nickelclad merge, params
-		merge = Nickelclad.find_by(merge: merge)
+	def edit_nickelclad id, params
+		merge = Nickelclad.find_by(id: id)
 		merge.update(params)
 	end
 
 	def edit_nickelclad_length merge, length, new_legth
 		Nickelclad.connection.execute("update nickelclads set length = '#{new_legth}' where merge='#{merge}' and length='#{length}'")
-		
+	end
+	def edit_nickelclad_thickness merge, thickness
+		Nickelclad.connection.execute("update nickelclads set thickness = '#{thickness}' where merge='#{merge}'")
 	end
 
 	def update_tape_status id, status
@@ -197,16 +210,18 @@ module PlansHelper
 
 	end
 
-	def add_nickelclad size, is_declicacy, allowance, merge, to, final_sheet
-		thickness, wide, length = size.split('*')
+	def add_nickelclad params, merge, _tmp
+
+		to = params["to#{_tmp}"] == "其他" ? params["tmp_to#{_tmp}"] : params["to#{_tmp}"]
+		thickness, wide, length = params["new_size#{_tmp}"].split('*')
 		_nickelclad = Nickelclad.new
 		_nickelclad.merge = merge
 		_nickelclad.thickness = thickness
 		_nickelclad.wide = wide
 		_nickelclad.length = length
-		_nickelclad.allowance = allowance
+		_nickelclad.allowance = params["allowance#{_tmp}"]
 		_nickelclad.to = to
-		_nickelclad.is_declicacy = is_declicacy
+		_nickelclad.is_declicacy = params["is_declicacy#{_tmp}"].to_i
 		_nickelclad.status = 0
 		_nickelclad
 	end
@@ -216,6 +231,7 @@ module PlansHelper
 		Nickelclad.connection.execute("update nickelclads set merge='#{merge}-#{count}' where merge = '#{merge}'")
 		Plan.connection.execute("update plans set tape_merge='#{merge}-#{count}' where tape_merge = '#{merge}'")
 	end
+
 
 
 	def add_plans params
@@ -248,15 +264,15 @@ module PlansHelper
 				plan.status = -1
 				if num == 0
 					count += 1
-					plan.nickelclad = add_nickelclad params["new_size#{_tmp}"], params["is_declicacy#{_tmp}"].to_i, params["allowance#{_tmp}"], merge, params["to#{_tmp}"], params["final_sheet#{_tmp}"]
+					plan.nickelclad = add_nickelclad params, merge, _tmp
 					plan.save 
 				elsif num != 0 and index.size == 1
 					count += 1
-					plan.nickelclad = add_nickelclad params["new_size#{_tmp}"], params["is_declicacy#{_tmp}"].to_i, params["allowance#{_tmp}"], merge, params["to#{_tmp}"], params["final_sheet#{_tmp}"]
+					plan.nickelclad = add_nickelclad params, merge, _tmp
 					plan.save 
 				else !_length.include? length
 					count += 1
-					plan.nickelclad = add_nickelclad params["new_size#{_tmp}"], params["is_declicacy#{_tmp}"].to_i, params["allowance#{_tmp}"], merge, params["to#{_tmp}"], params["final_sheet#{_tmp}"]
+					plan.nickelclad = add_nickelclad params, merge, _tmp
 					plan.save 
 				end
 				
