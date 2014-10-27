@@ -16,7 +16,7 @@
         </select>&nbsp;&nbsp;&nbsp;&nbsp;
       完成时间：<input type="date" id="finish_at"  size="10" value="<%=@view_params[:finish_at]%>"/>
       &nbsp;&nbsp;&nbsp;&nbsp;
-      <input name="search" id="search" type="button"  value="查询">
+      <input id="plan_search" type="button"  value="查询">
       <%end%>
     </td>
   </tr>
@@ -31,7 +31,7 @@
      <td nowrap class="td_top">张数</td>
      <td nowrap class="td_top">送往单位</td>
      <td nowrap class="td_top">备注</td>
-      <td nowrap class="td_top">亏损</td>
+      <!--<td nowrap class="td_top">亏损</td>-->
      <td nowrap class="td_top">实际张数</td>
      <td nowrap class="td_top">操作</td>
   </tr>
@@ -66,9 +66,9 @@
         <%end%>
         <td class="td_01" id="distination"><%=plan.nickelclad.to%></td>
         <td class="td_01" id="remark"><%=plan.remark%></td>
-        <td class="td_01">
+        <!--<td class="td_01">
             <%= (plan.nickelclad.thickness.to_f * (plan.nickelclad.wide.to_f / 1000) * (plan.nickelclad.length.to_f / 1000) * 7.85 * plan.nickelclad.real_final_sheet.to_i - (plan.tape.out_weight.to_i - plan.tape.residue_weight.to_i)).to_i %>
-          </td>
+          </td>-->
         <td class="td_01">
             <%plan.nickelclad.bags.each_with_index do|bag, index|%>
               <%=bag.sheet%>
@@ -120,12 +120,6 @@
 
 <script type="text/javascript">
 
-$("#search").click(function (){
-          var status = $('#status').val()
-          var first = $('finish_at_first').val()
-          var last = $('finish_at_last').val()
-          location.href = "/plans?department=<%=@view_params[:department]%>&history="+status;
-});
 
 (function($){
   $.getUrlParam = function(name)
@@ -140,7 +134,7 @@ $("#search").click(function (){
 function phone_message(type_id){
   location.href = "/plans/send/message?type=1&employee_id="+type_id
 };
-$("#search").click(function (){
+$("#plan_search").click(function (){
   var status = $('#status').val()
   var finish_at = $('#finish_at').val()
   location.href = "/plans/spread/1?department=<%=@view_params[:department]%>&history="+status+"&finish_at="+finish_at;

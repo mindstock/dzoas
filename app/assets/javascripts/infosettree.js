@@ -1,4 +1,3 @@
-//ÆÁ±ÎÊó±êÓÒ¼ü
 ///document.oncontextmenu = contextmenu ;
 function contextmenu ()
 {

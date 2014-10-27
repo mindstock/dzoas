@@ -1,18 +1,10 @@
-//ÆÁ±ÎÊó±êÓÒ¼ü
 ///document.oncontextmenu = contextmenu ;
 function contextmenu ()
 {
  event.returnValue = false ;
  return false ;
 }
-/**************************************************************************
-	Copyright (c) 2001 Geir Landrö (drop@destroydrop.com)
-	JavaScript Tree - www.destroydrop.com/hugi/javascript/tree/
-	Version 0.96
 
-	This script can be used freely as long as all copyright messages are
-	intact.
-**************************************************************************/
 
 // Arrays for nodes and icons
 var nodes		= new Array();;

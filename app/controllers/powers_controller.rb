@@ -1,7 +1,11 @@
 class PowersController < ApplicationController
+  include PowersHelper
   before_action :set_power, only: [:show, :edit, :update, :destroy]
+  before_action :power_all, only: [:index, :new, :edit]
 
   def index
+    user_session[:menu] = params[:menu]
+    get_navigation
     @powers = Power.all
   end
 
@@ -15,6 +19,7 @@ class PowersController < ApplicationController
   def create
     @power = Power.new(power_params)
     @power.save
+    redirect_to '/powers'
   end
 
   def update
@@ -26,11 +31,14 @@ class PowersController < ApplicationController
   end
 
   private
+    def power_all
+      @powers = Power.all
+    end
     def set_power
       @power = Power.find(params[:id])
     end
 
     def power_params
-      params.require(:power).permit(:parent_id, :name, :url, :remark)
+      params.permit(:parent_id, :name, :url, :remark)
     end
 end

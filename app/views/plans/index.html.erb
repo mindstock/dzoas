@@ -18,13 +18,16 @@
         <select name="status" id="status">
           <option value="1" <%if @view_params[:history] == 1%>selected<%end%>>未完成</option>
           <option value="2" <%if @view_params[:history] == 2%>selected<%end%>>已完成</option>
-          <option value="-1" <%if @view_params[:history] == -1%>selected<%end%>>待发布</option>
+          <%if @role != "访客"%><option value="-1" <%if @view_params[:history] == -1%>selected<%end%>>待发布</option><%end%>
         </select>
         
       任务完成时间：
-      <input type="date" id="finish_at" class="input" size="10" value="<%=@view_params[:finish_at]%>"/>    
+      <input type="date" id="finish_at" class="input" size="10" value="<%=@view_params[:finish_at]%>"/> 
+
       <input name="search" id="search" type="button" class="buttonface02" value="查询">
-      <%= link_to "创建计划", "/plans/search/tapes"%>
+      <%if @role != "访客"%>   
+        <%= link_to "创建计划", "/plans/search/tapes"%>
+      <%end%>
       <%end%>
     </td>
   </tr>
@@ -34,7 +37,7 @@
   <tr> 
     <td nowrap class="td_top">#</td>
     <td nowrap class="td_top">材质</td>
-    <td nowrap class="td_top">零件号</td>
+    <td nowrap class="td_top">钢卷号</td>
     <td nowrap class="td_top">库位</td>
     <td nowrap class="td_top">钢卷规格</td>
     <% if @view_params[:history] != 2%>
@@ -46,11 +49,8 @@
      <td nowrap class="td_top">送往单位</td>
      <td nowrap class="td_top">备注</td>
      <td nowrap class="td_top">任务状态</td>
-     <% if @view_params[:history] == 2%>
-      <td nowrap class="td_top">亏损</td>
-     <%end%>
      <td nowrap class="td_top">实际张数</td>
-     <td nowrap class="td_top">操作</td>
+     <%if @role != "访客"%><td nowrap class="td_top">操作</td><%end%>
   </tr>
   <%@plans.each_with_index do|plan,index|%>
     <%if @plans[index-1].tape_merge != @plans[index].tape_merge%>
@@ -107,11 +107,6 @@
       <td class="td_01" id="finish_at"><%=plan.nickelclad.to%></td>
       <td class="td_01" id="remark" style="word-wrap:break-word;"><%=plan.remark%></td>
       <td class="td_01"><%=@plan_status_name[plan.status]%></td>
-       <% if @view_params[:history] == 2%>
-        <td class="td_01">
-          <%= (plan.nickelclad.thickness.to_f * (plan.nickelclad.wide.to_f / 1000) * (plan.nickelclad.length.to_f / 1000) * 7.85 * plan.nickelclad.real_final_sheet.to_i - (plan.tape.out_weight.to_i - plan.tape.residue_weight.to_i)).to_i %>
-        </td>
-      <%end%>
       <td class="td_01">
             <%plan.nickelclad.bags.each_with_index do|bag, index|%>
               <%=bag.sheet%>
@@ -120,6 +115,7 @@
               <%end%>
             <%end%>
           </td>
+      <%if @role != "访客"%>
       <td class="td_01">
         <%if @view_params[:history] == 2%>
           <%= link_to '详细', plan_path(plan) %>
@@ -131,6 +127,7 @@
           <%=check_box_tag "plan_id", "#{plan.id}"%>
         <%end%>
      </td>
+     <%end%>
     </tr>
   <%end%> 
   <%if @view_params[:history] == -1%> 

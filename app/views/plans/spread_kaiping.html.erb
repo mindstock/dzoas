@@ -1,332 +1,63 @@
-
-  <audio id="music" src="" autoplay="autoplay"></audio>
-    <div class="header">
-    <div height="8" width="100%"><img src="<%=image_path('spacer.gif')%>" width="1" height="8"></div>
-    <table width="100%" border="0" cellpadding="0" cellspacing="0" background="<%=image_path('index_21.gif')%>">
-  </div>
-<table width="100%"  border="0" align="center" cellpadding="0" cellspacing="0">
-  <tr>
-    <td class="td_page">
-       <%= form_tag("/plans/list/department", :class => 'form-horizontal') do -%>
-        <%= hidden_field_tag "department", "1"%>
-        任务状态：
-        <select name="status" id="status" >
-          <option value="1" <%if @view_params[:history] == 1%>selected<%end%>>未完成</option>
-          <option value="2" <%if @view_params[:history] == 2%>selected<%end%>>已完成</option>
-        </select>&nbsp;&nbsp;&nbsp;&nbsp;
-      完成时间：<input type="date" id="finish_at"  size="10" value="<%=@view_params[:finish_at]%>"/>
-      &nbsp;&nbsp;&nbsp;&nbsp;
-      <input name="search" id="search" type="button"  value="查询">
-      <%end%>
-    </td>
-  </tr>
-</table>
-<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0" >
-  <tr> 
-    <td nowrap class="td_top">ID</td>
-    <td nowrap class="td_top">材质</td>
-    <td nowrap class="td_top">库位</td>
-    <td nowrap class="td_top">钢卷号</td>
-    <td nowrap class="td_top">钢卷规格</td>
-    <td nowrap class="td_top">卷重</td>
-     <td nowrap class="td_top">加工规格</td>
-     <td nowrap class="td_top">张数</td>
-     <td nowrap class="td_top">工差</td>
-     <td nowrap class="td_top">送往单位</td>
-     <td nowrap class="td_top">表面件</td>
-     <td nowrap class="td_top">备注</td>
-     <td nowrap class="td_top">状态</td>
-     <td nowrap class="td_top">实际张数</td>
-     <td nowrap class="td_top">操作</td>
-  </tr>
-  <%@plans.each_with_index do|plan, index|%>
-    <%if @plans[index-1].tape_merge != @plans[index].tape_merge%>
-      <tr><td class="td_01_plan" colspan="15"></td></tr>
-    <%end%>
-    <tr <%if plan.is_urgency == 1%>style="color:red"<%elsif plan.status == 3%>style="color:green"<%end%>> 
-        <td class="td_01" id="id"><%=check_box_tag "plan_id", "#{plan.id}_#{plan.nickelclad.thickness}x#{plan.nickelclad.wide}x#{plan.nickelclad.length}_#{plan.tape.residue_weight}"%><%=plan.id%></td>
-        <td class="td_01" id="texture">
-          <%if index == 0 or @plans[index-1][:tape_id]!=plan.tape_id%><%=plan.tape.texture%><%end%>
-        </td>
-        <td class="td_01" id="place">
-          <%if index == 0 or @plans[index-1][:tape_id]!=plan.tape_id%>
-            <%=plan.tape.place%>
-          <%end%>
-        </td>
-        <td class="td_01" id="tape_num">
-          <%if index == 0 or @plans[index-1][:tape_id]!=plan.tape_id%>
-            <%=plan.tape.tape_num%>
-          <%end%>
-        </td>
-        <td class="td_01" id="size">
-          <%if index == 0 or @plans[index-1][:tape_id]!=plan.tape_id%>
-            <%=plan.tape.thickness%>x<%=plan.tape.wide%>x<%=plan.tape.length%>
-          <%end%>
-        </td>
-        <td class="td_01" id="weight_count">
-          <%=plan.tape.residue_weight%>
-        </td>
-        <td class="td_01" id="new_size">
-          <%if index == 0 or (@plans[index-1].nickelclad.length!=plan.nickelclad.length or @plans[index-1].nickelclad.thickness!=plan.nickelclad.thickness or @plans[index-1].nickelclad.wide!=plan.nickelclad.wide)%>
-            <%=plan.nickelclad.thickness%>x<%=plan.nickelclad.wide%>x<%=plan.nickelclad.length%>
-          <%end%>
-        </td>
-        <td class="td_01" id="final_sheet">
-          <%=plan.final_sheet%>
-        </td>
-        <td class="td_01" id="allowance"><%=plan.nickelclad.allowance%></td>
-        <td class="td_01" id="distination"><%=plan.nickelclad.to%></td>
-        <td class="td_01" id="is_declicacy"><%if plan.nickelclad.is_declicacy == 1%>是<%else%>否<%end%> </td>
-        <td class="td_01" id="remark"><%=plan.remark%></td>
-        <td class="td_01" id="status">
-            <%=@plan_status_name[plan.status]%>
-        </td>
-        <% if @view_params[:history] == 2%>
-          <td class="td_01">
-            <%= (plan.nickelclad.thickness.to_f * (plan.nickelclad.wide.to_f / 1000) * (plan.nickelclad.length.to_f / 1000) * 7.85 * plan.nickelclad.real_final_sheet.to_i - (plan.tape.out_weight.to_i - plan.tape.residue_weight.to_i)).to_i %>
-          </td>
-        <%end%>
-        <td class="td_01">
-            <%plan.nickelclad.bags.each_with_index do|bag, index|%>
-              <%=bag.sheet%>
-              <%if index != plan.nickelclad.bags.length-1%>
-              +
-              <%end%>
-            <%end%>
-          </td>
-        <td class="td_01_break" id="exec">
-          <%if @view_params[:history] == 2%>
-            <%= link_to '详细', "/plans/#{plan.id}?type=1" %>
-          <%else%>
-            <% if plan.status.to_i == 3%>
-              <a href="#complete" class="<%=@plan_status_class[plan.status]%> btn-xs" data-toggle="modal">
-              完成</a>
-              <div id="complete" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                <%= form_tag('/bags', :class => 'form-horizontal', :id=>"plan_complete") do -%>
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                      <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                        <h4 class="modal-title">记录开平张数</h4>
-                      </div>
-                      <div class="modal-body">
-                        <%= hidden_field_tag "nickelclad_id", "#{plan.nickelclad.id}"%>
-                        <label class="col-sm-2 control-label">是否板头</label>
-                        <div class="col-sm-2">
-                          <%= radio_button_tag "is_nickelclad_top", 1%> 是
-                          <%= radio_button_tag "is_nickelclad_top", 0, true%>否
-                        </div>
-                        <label class="col-sm-2 control-label">张数/板头</label>
-                        <div class="col-sm-2">
-                          <%= text_field_tag 'sheet',"", :class => "required"%>
-                        </div>
-                      </div>
-                      <div class="modal-footer">
-                        <%= submit_tag '继续', :class => 'btn btn-success'%>
-                        <button type="button" class="btn btn-success" onclick="complete_plan(<%=plan.id%>)">完成</button>
-                        <a href="/plans/spread/1" class="btn btn-info">返回</a>
-                      </div>
-                    </div>
-                </div>
-                <%end%>
-              </div>
-            <%elsif plan.status == 1%>
-              <a href="#up_tape" class="<%=@plan_status_class[plan.status]%> btn-xs" data-toggle="modal">
-              上料</a>
-              <div id="up_tape" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                <%= form_tag("/plans/spread/update/plance_num/#{plan.id}", :class => 'form-horizontal', :id=>"plan_complete") do -%>
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                      <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                        <h4 class="modal-title">记录钢卷位置</h4>
-                      </div>
-                      <div class="modal-body">
-                        <label class="col-sm-2 control-label">钢卷位置</label>
-                        <div class="col-sm-2">
-                          <%= text_field_tag 'place_num',"", :class => "required"%>
-                          <%= hidden_field_tag "tape_id", "#{plan.tape.id}"%>
-                        </div>
-                      </div>
-                      <div class="modal-footer">
-                      <%= submit_tag '确定', :class => 'btn btn-success'%>
-                        <a href="/plans/spread/1" class="btn btn-info">返回</a>
-                      </div>
-                    </div>
-                </div>
-                <%end%>
-              </div>
-            <%else%>
-              <button type="button" class="<%=@plan_status_class[plan.status]%> btn-xs" onclick="update_status(<%=plan.id%>,<%=plan.status+1%>)">
-                <%=@plan_status_button[plan.status]%><%if plan.place_num.to_i != 0%>-<%=plan.place_num%><%end%>
-              </button>
-            <%end%>
-            <%if plan.status == 3%>
-              <a href="/quclity_checks/new?plan_id=<%=plan.id%>" class="btn btn-info btn-xs" data-toggle="modal">质检</a>
-            <%end%>
-          <%end%>
-          
-        </td>
-    </tr>
-  <%end%>     
-</table>
-<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
-  <tr> 
-    <td nowrap width="100%" class="td_top"><span style="color:red">注：红色字体为紧急件-请优先处理</span></td>
-  </tr>
-</table>
-
-<h5>常规操作</h5>
-<hr>
-<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
-  <tr> 
-    <td class="td_01" colspan="8">
-
-      <a href="#myModal" class="btn btn-success btn-xs" data-toggle="modal">原料规格短信通知</a>
-      <!-- Modal -->
-      <div id="myModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-              <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                <h4 class="modal-title">选择接收人员</h4>
-              </div>
-              <div class="modal-body">
-                <%@employees.each do|employee|%>
-                  <%=radio_button_tag "employee_id", "#{employee.id}"%><%=employee.name%>
-                <%end%>
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal" aria-hidden="true">返回</button>
-                <button id="size_phone_message" type="button" class="btn btn-primary">发送</button>
-              </div>
-            </div>
+<div id="chat" class="well" data-uri="<%= request.host %>:<%= request.port %>/websocket">
+</div>
+    <div class="navbar navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+          <a class="btn btn-navbar" data-target=".nav-collapse" data-toggle="collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </a>
+          <a class="brand" href="#">Chat</a>
+          <div class="container nav-collapse">
+            <ul class="nav">
+              <li><div class="btn-group">
+                <a class="btn btn-info dropdown-toggle" data-toggle="dropdown" href="#"><i class="icon-user"></i> <span id="username">Guest</span> <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                  <li><a href="" id="edit-user-info" data-target="#user-information" data-toggle="modal">Edit User Information</a></li>
+                </ul>
+              </div></li>
+            </ul>
+          </div><!--/.nav-collapse -->
         </div>
       </div>
-    </td>
-  </tr>
-  <tr>
-    <td class="td_01" rowspan="1">计划员</td>
-     <td class="td_01" >
-      <button type="button" class="btn btn-success btn-xs" data-toggle="modal" onclick="phone_message(1)">短信通知</button>
-    </td>
-    <td class="td_01" rowspan="2">质检人员</td>
-    <td class="td_01" >
-      <button type="button" class="btn btn-success btn-xs" data-toggle="modal" onclick="phone_message(5)">短信通知</button>
-    </td>
-    <td class="td_01" rowspan="2">倪总</td>
-    <td class="td_01" >
-      <button type="button" class="btn btn-success btn-xs" data-toggle="modal" onclick="phone_message(4)">短信通知</button>
-    </td>
-    <td class="td_01" rowspan="2">余总</td>
-    <td class="td_01" >
-      <button type="button" class="btn btn-success btn-xs" data-toggle="modal" onclick="phone_message(3)">短信通知</button>
-    </td>
-  </tr>
-</table>
+    </div>
+
+    <div class="container">
+      <div class="content">
+        <div class="row">
+          <div class="span9">
+          <% if notice %>
+            <div class="notice"><%= notice %></div>
+          <% elsif alert %>
+            <div class="alert"><%= alert %></div>
+          <% end %>
+          <%= yield %>
+        </div>
+        <div class="span3">
+          <div class="well sidebar-nav">
+            <h3>Users</h3>
+            <ul class="nav nav-list" id="user-list">
+              <li class="nav-header">Active</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div><!--/row-->
+  </div><!--/content-->
+  <div id="footer">
+    <div class="container">
+      <p class="muted credit">Hacked together by <a href="http://www.pogoapp.com">Pogoapp</a>. Code available <a href="https://github.com/themgt/ws42-chat">here</a> (<a href="https://github.com/DanKnox/websocket-rails-Example-Project">with much borrowed</a>)</p>
+    </div>
+  </div>
+</div> <!-- /container -->
 
 
- <script type="text/javascript">
-      $("#search").click(function (){
-          var status = $('#status').val()
-          var first = $('finish_at_first').val()
-          var last = $('finish_at_last').val()
-          location.href = "/plans?department=<%=@view_params[:department]%>&history="+status;
-        });
-    </script>
-<script type="text/javascript">
-  (function($){
-    $.getUrlParam = function(name)
-    {
-      var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
-      var r = window.location.search.substr(1).match(reg);
-      if (r!=null) return unescape(r[2]); return null;
-    }
-  })(jQuery);
-
-
-  function play_click(){
-    var div = document.getElementById('music');
-    div.src="http://qzone.haoduoge.com/music/1A8F9XC128EC2728A8516173DEA74B51E4D92.mp3";
-
-  };
-  var timer = setInterval(function () {
-    $.ajax({
-        type:"get",
-        dataType:"text",
-        url: "/plans/spread/status/0?department=1",
-        contentType: "application/json; charset=utf-8", 
-        success:function(result){
-          result = eval("(" + result + ")");
-          var count = result.count;
-          if(count > 0){
-            // play_click();   
-            location.href = "/plans/spread/1";        
-          };
-        }
-      });
-  },20000);
-
-
-  function update_status(id, status){
-    var pd = ""
-    var rpd = "123"
-    if (status == 3){
-      pd = prompt("请输入密码：")
-      if(pd != rpd){
-        alert("密码不正确！");
-      }else{
-        location.href = "/plans/spread/status/update/"+id+"/"+status
-      }
-    }else{
-      location.href = "/plans/spread/status/update/"+id+"/"+status
-    }
-    
-  };
-
-  $("#size_phone_message").click(function (){
-    var s='';
-    var i = 0;
-    $('input[name="plan_id"]:checked').each(function(){
-      s+=$(this).val()+',';
-      i += 1;
-    });
-    var employee_id = $('input[name="employee_id"]:checked').val();
-    if(i > 3 || i < 1){
-      alert("每次发送钢卷尺寸条数为1-3条");
-    }else{
-      location.href = "/plans/send/message?message="+s+"&employee_id="+employee_id;
-    }
-    
-  });
-
-  function phone_message(type_id){
-    location.href = "/plans/send/message?type=1&employee_id="+type_id
-  }
-
-  function complete_plan(plan_id){
-    var pd = ""
-    var rpd = "123"
-    var sheet = $("#sheet").val();
-    var is_nickelclad_top = $("#is_nickelclad_top").val();
-    pd = prompt("请输入密码：")
-    if(pd != rpd){
-        alert("密码不正确！");
-    }else{
-      location.href = "/plans/spread/complete_plan/"+plan_id+"?sheet="+sheet+"&is_nickelclad_top="+is_nickelclad_top
-      
-    }
-    
-  }
-    
-
-</script>
-
- <script type="text/javascript">
-      $("#search").click(function (){
-          var status = $('#status').val()
-          var finish_at = $('#finish_at').val()
-          location.href = "/plans/spread/1?department=<%=@view_params[:department]%>&history="+status+"&finish_at="+finish_at;
-        });
-    </script>
+<div class="form-inline well">
+  <fieldset>
+    <input type="text" class="input-medium" id="user_name">
+    <input type="text" class="input-xlarge" id="message">
+    <button id="send" class="btn btn-primary">Send</button>
+  </fieldset>
+</div>
 

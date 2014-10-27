@@ -37,7 +37,7 @@ module PlansHelper
           <td class="td_form01">送往单位</td>
           <td class="td_form02">
           	<input type="radio" name="to#{tape_id}-#{index}" id="to#{tape_id}-#{index}" value="剪切">剪切
-          	<input type="radio" name="to#{tape_id}-#{index}" id="to#{tape_id}-#{index}" value="留库">剪切
+          	<input type="radio" name="to#{tape_id}-#{index}" id="to#{tape_id}-#{index}" value="留库">留库
           	<input type="radio" name="to#{tape_id}-#{index}" id="to#{tape_id}-#{index}" value="其他" checked>其他
           	<input type="text" class="input" id="tmp_to#{tape_id}-#{index}" name="tmp_to#{tape_id}-#{index}">
           </td>
@@ -112,11 +112,13 @@ module PlansHelper
 		tape.update(status: status)
 	end
 
+	def update_order merge
+		Plan.connection.execute("update plans set `order` = 0 where `order` = 1 and tape_merge != '#{merge}'")
+		Plan.connection.execute("update plans set `order` = 1 where tape_merge = '#{merge}'")
+		
+	end
+
 	def update_status_by_status id, status
-		if status == 3
-			num = Plan.connection.execute("select count(id) as num from plans where status = #{status}").to_a[0][0]
-			return if num >= 0
-		end 
 		plan = Plan.find_by(id: id)
 		plan.update(status: status)
 	end
@@ -164,7 +166,7 @@ module PlansHelper
 		where = "and finish_at = '#{finish_at}'" if finish_at and !finish_at.empty?
 			
 		if history.to_i == 1
-			Plan.where("status >=0 and status < 4 and department_id = #{department} #{where}").order(id: :asc)
+			Plan.where("status >=0 and status < 4 and department_id = #{department} #{where}").order(order: :desc)
 		elsif history.to_i == 2
 			Plan.where("department_id = #{department} and status >= 4 #{where}").order(finish_at: :desc).page(cur_page)
 		else

@@ -6,6 +6,9 @@ class PlansController < ApplicationController
   include PlansHelper
   include NickelcladsHelper
   include BagsHelper
+
+  protect_from_forgery :except => [:add_place_num]
+
   before_action :set_plan, only: [:show, :edit, :update, :destroy]
   before_action :search_init, only: [:search_tapes, :search]
   before_action :set_plan_status, only: [:index, :spread]
@@ -24,7 +27,12 @@ class PlansController < ApplicationController
       2 => "complete_index",
       -1 => "index"
     }
+    @role = user_session[:role]
     render(:template => "plans/#{template[history.to_i]}") 
+  end
+
+  def guest_index
+    redirect_to '/plans?menu=10&role=1'
   end
 
   def show
@@ -83,11 +91,12 @@ class PlansController < ApplicationController
     tape_id, place_num = params[:tape_id].to_i, params[:place_num]
     status = 2
     plan_update_status_by_tape tape_id, status
-    update_place_num tape_id, place_num, status
+    update_place_num tape_id, place_num, status unless params[:place_num].empty?
     redirect_to "/plans/spread/1"
   end
 
   def update_status
+
     @plan = Plan.find(params["id"])
     id, status = params["id"], params["status"].to_i
     # send_mail_by_status status, @plan
@@ -99,6 +108,7 @@ class PlansController < ApplicationController
       redirect_to "/plans/spread/1"
     else
       update_status_by_status id, status
+      update_order @plan.tape_merge
       redirect_to "/plans/spread/1"
     end
   end
