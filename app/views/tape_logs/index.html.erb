@@ -1,0 +1,31 @@
+<h1>Listing tape_logs</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Type</th>
+      <th>Num</th>
+      <th>Finish at</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @tape_logs.each do |tape_log| %>
+      <tr>
+        <td><%= tape_log.type %></td>
+        <td><%= tape_log.num %></td>
+        <td><%= tape_log.finish_at %></td>
+        <td><%= link_to 'Show', tape_log %></td>
+        <td><%= link_to 'Edit', edit_tape_log_path(tape_log) %></td>
+        <td><%= link_to 'Destroy', tape_log, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Tape log', new_tape_log_path %>

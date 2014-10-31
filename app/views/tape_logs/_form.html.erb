@@ -1,0 +1,29 @@
+<%= form_for(@tape_log) do |f| %>
+  <% if @tape_log.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@tape_log.errors.count, "error") %> prohibited this tape_log from being saved:</h2>
+
+      <ul>
+      <% @tape_log.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :type %><br>
+    <%= f.number_field :type %>
+  </div>
+  <div class="field">
+    <%= f.label :num %><br>
+    <%= f.number_field :num %>
+  </div>
+  <div class="field">
+    <%= f.label :finish_at %><br>
+    <%= f.text_field :finish_at %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

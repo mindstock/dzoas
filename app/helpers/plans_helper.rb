@@ -76,6 +76,17 @@ module PlansHelper
 		EOF
 	end
 
+	def get_plans_by_sql sql
+		Plan.find_by_sql(sql) 		
+  	end
+
+  	#获取
+  	def get_plans_for_weigth tape_id, status
+  		sql = "select id from plans where tape_id = #{tape_id} and status != #{status}"
+  		get_plans_by_sql sql
+  	end
+
+
 	def plan_update id, field, value
 		plan = Plan.find_by(id: id)
 		_hash = {field => value}
@@ -174,6 +185,12 @@ module PlansHelper
 		end
 	end
 
+	def check_list department, finish_at, cur_page, status
+		where = ""
+		where = "and finish_at = '#{finish_at}'" if finish_at and !finish_at.empty?
+		Plan.where("department_id = #{department} and status = #{status} #{where}").order(finish_at: :desc).page(cur_page)
+	end
+
 	def send_mail_by_status status, plan
 		if status.to_i == 3
 			To_phone[status.to_s].each do |phone|
@@ -228,13 +245,51 @@ module PlansHelper
 		_nickelclad
 	end
 
-	def update_nickelclad merge, count
+	#追加计划
+	def append_nickelclad params, merge
+		to = params["to"] == "其他" ? params["tmp_to"] : params["to"]
+		thickness, wide, length = params["new_size"].split('*')
+		_nickelclad = Nickelclad.new
+		_nickelclad.merge = merge
+		_nickelclad.thickness = thickness
+		_nickelclad.wide = wide
+		_nickelclad.length = length
+		_nickelclad.allowance = params["allowance"]
+		_nickelclad.to = to
+		_nickelclad.is_declicacy = params["is_declicacy"].to_i
+		_nickelclad.status = 0
+		_nickelclad
+	end
 
-		Nickelclad.connection.execute("update nickelclads set merge='#{merge}-#{count}' where merge = '#{merge}'")
-		Plan.connection.execute("update plans set tape_merge='#{merge}-#{count}' where tape_merge = '#{merge}'")
+	def update_nickelclad new_merge, merge
+		Nickelclad.connection.execute("update nickelclads set merge='#{new_merge}' where merge = '#{merge}'")
+		Plan.connection.execute("update plans set tape_merge='#{new_merge}' where tape_merge = '#{merge}'")
 	end
 
 
+	#追加计划
+	def append params
+		_plan = Plan.find(params[:plan_id])
+		_merge, count = _plan.tape_merge.split('-')
+		merge = "#{_merge}-#{count.to_i+1}"
+		plan = Plan.new
+		plan.department_id = 1
+		plan.status = -1
+		plan.tape_id = _plan.tape_id
+		plan.finish_at = params[:finish_at]
+		plan.is_urgency = params[:is_urgency]
+		plan.remark = params[:remark]
+		plan.order = _plan.order
+		plan.final_sheet = params[:final_sheet]
+		length = params[:new_size].split("*")[2]
+		plan.tape_merge = merge
+		plan.nickelclad = append_nickelclad(params, merge)
+		plan.is_append = 1
+		plan.save
+		# update_nickelclad _merge, count.to_i+1
+		update_nickelclad merge, _plan.tape_merge
+
+	end
 
 	def add_plans params
 		tape_ids = params[:tape_ids].split(",")
@@ -282,7 +337,7 @@ module PlansHelper
 			end
 		end
 
-		update_nickelclad merge, count
+		update_nickelclad "#{merge}-#{count}", "#{merge}"
 		
 	end
 end

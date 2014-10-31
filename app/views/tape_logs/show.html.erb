@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Type:</strong>
+  <%= @tape_log.type %>
+</p>
+
+<p>
+  <strong>Num:</strong>
+  <%= @tape_log.num %>
+</p>
+
+<p>
+  <strong>Finish at:</strong>
+  <%= @tape_log.finish_at %>
+</p>
+
+<%= link_to 'Edit', edit_tape_log_path(@tape_log) %> |
+<%= link_to 'Back', tape_logs_path %>

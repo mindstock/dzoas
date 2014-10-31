@@ -51,7 +51,7 @@
       <tr><td class="td_01_plan" colspan="13"></td></tr>
     <%end%>
     
-    <tr <%if plan.is_urgency == 1%>style="color:red"<%elsif plan.status == 3%>style="color:green"<%end%>> 
+    <tr <%if plan.is_urgency == 1%>style="color:red"<%elsif plan.status == 3%>style="color:green"<%elsif plan.is_append == 1%>style="color:#0000C6"<%end%>> 
       <td class="td_01" id="id" width="3px"><%=plan.id%></td>
       <td class="td_01" id="texture">
         <%=plan.tape.texture%>
@@ -78,9 +78,7 @@
       <td class="td_01" id="finish_at"><%=plan.nickelclad.to%></td>
       <td class="td_01" id="remark" style="word-wrap:break-word;"><%=plan.remark%></td>
       <td class="td_01"><%=@plan_status_name[plan.status]%></td>
-        <!--<td class="td_01">
-          <%= (plan.nickelclad.thickness.to_f * (plan.nickelclad.wide.to_f / 1000) * (plan.nickelclad.length.to_f / 1000) * 7.85 * plan.nickelclad.real_final_sheet.to_i - (plan.tape.out_weight.to_i - plan.tape.residue_weight.to_i)).to_i %>
-        </td>-->
+        
       <td class="td_01">
             <%plan.nickelclad.bags.each_with_index do|bag, index|%>
               <%=bag.sheet%>

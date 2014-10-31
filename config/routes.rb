@@ -1,4 +1,6 @@
 Dzoas::Application.routes.draw do
+  resources :tape_logs
+
   resources :bags
 
   resources :powers
@@ -47,6 +49,12 @@ Dzoas::Application.routes.draw do
   get '/plans/create/:ids' => 'plans#create_plan'
   get '/plans/spread/delete/:tape_merge' => 'plans#del'
   post '/plans/spread/update/plance_num/:plan_id' => 'plans#add_place_num'
+  get '/plans/check/list/:department' => 'plans#check_plan'
+  get '/plans/check/bag/:plan_id' => 'plans#check_plan_bag'
+  get '/plans/check/complete/:plan_ids' => 'plans#complete_check'
+  get '/plans/append/new' => 'plans#append_plan'
+  post '/plans/append/plan' => 'plans#append_new_plan'
+  get '/plans/append/plan_json' => 'plans#get_plan_for_json'
 
   resources :tapes
   get '/tapes/store/upload_file' => 'tapes#upload_file'

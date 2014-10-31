@@ -1,59 +1,95 @@
-<p id="notice"><%= notice %></p>
+  <table width="100%" border="0" cellspacing="0" cellpadding="0">
+    <tr>
+      <td height="25" align="center" valign="bottom" class="td06"><table width="98%" border="0" cellspacing="3" cellpadding="0">
+          <tr>
+            <td width="15"><img src="<%=image_path('index_32.gif')%>" width="9" height="9"></td>
+            <td valign="bottom" class="title">钢卷详细--钢卷ID:<%=@tape.id%></td>
+          </tr>
+      </table></td>
+    </tr>
+  </table>
+  <br>
+    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+      <tr>
+        <td width="90" height="24" class="td_form01">供应商</td>
+        <td class="td_form02">
+          <%= text_field_tag 'from', "#{@tape.from}", :class => "input required"%>
+                       <%= hidden_field_tag 'id', "#{@tape.id}"%>
+        </td>
+        <td width="90" height="24" class="td_form01">钢卷号</td>
+        <td class="td_form02">
+          <%= text_field_tag 'tape_num', "#{@tape.tape_num}", :class => "input required"%>
+        </td>
+        
+      </tr>
+      <tr>
+        <td width="90" height="24" class="td_form01">材质</td>
+        <td class="td_form02">
+          <%= text_field_tag 'texture', "#{@tape.texture}", :class => "input required"%>
+        </td>
+        <td width="90" height="24" class="td_form01">规格</td>
+        <td class="td_form02">
+          <%=@tape.thickness%>*<%=@tape.wide%>*c
+        </td>
+      </tr>
+      <tr>
+        <td width="90" height="24" class="td_form01">起初重量</td>
+        <td class="td_form02">
+          <%= text_field_tag 'raw_weight', "#{@tape.raw_weight}", :class => "input number"%>
+        </td>
+        <td width="90" height="24" class="td_form01">出库重量</td>
+        <td class="td_form02">
+          <%= text_field_tag 'residue_weight', "#{@tape.out_weight}", :class => "input number"%>
+        </td>
+      </tr>
+      <tr>
+        <td width="90" height="24" class="td_form01">剩余重量</td>
+        <td class="td_form02">
+          <%= text_field_tag 'residue_weight', "#{@tape.residue_weight}", :class => "input number"%>
+        </td>
+        <td width="90" height="24" class="td_form01">历史库位</td>
+        <td class="td_form02">
+          <%= text_field_tag 'place', "#{@tape.place}", :class => "input required"%>
+        </td>
+      </tr>
+      <tr>
+        <td width="90" height="24" class="td_form01">钢卷状态</td>
+        <td class="td_form02">
+          <select name="status" id="status">
+            <option value="0" <%if @tape.status==0%>selected<%end%>>新卷</option>
+            <option value="3" <%if @tape.status==3%>selected<%end%>>外厂</option>
+            <option value="1" <%if @tape.status==1%>selected<%end%>>收卷</option>
+            <option value="2" <%if @tape.status==2%>selected<%end%>>出库</option>
+          </select>
+        </td>
+      </tr>
+    </table>
+    <br>
+<h6>钢卷开平历史记录</h6>
+<hr />
+<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0" style="table-layout:fixed">
+  <tr> 
+    <td nowrap class="td_top">计划id</td>
+    <td nowrap class="td_top">钢卷id</td>
+    <td nowrap class="td_top">钢板id</td>
+    <td nowrap class="td_top">钢板规格</td>
+    <td nowrap class="td_top">张数</td>
+    <td nowrap class="td_top">送往单位</td>
+    <td nowrap class="td_top">完成时间</td>
+  </tr>
+  <%@tape.plan.each do|plan|%>
+    <tr>
+      <td class="td_01"><%=plan.id%></td>
+      <td class="td_01"><%=plan.tape.id%></td>
+      <td class="td_01"><%=plan.nickelclad.id%></td>
+      <td class="td_01"><%=plan.nickelclad.thickness%>*<%=plan.nickelclad.wide%>*<%=plan.nickelclad.length%></td>
+      <td class="td_01"><%=plan.nickelclad.real_final_sheet%></td>
+      <td class="td_01"><%=plan.nickelclad.to%></td>
+      <td class="td_01"><%=plan.nickelclad.real_finish_at%></td>
+      <tr>
+  <%end%>     
+</table>
 
-<p>
-  <strong>From:</strong>
-  <%= @tape.from %>
-</p>
-
-<p>
-  <strong>Place:</strong>
-  <%= @tape.place %>
-</p>
-
-<p>
-  <strong>Texture:</strong>
-  <%= @tape.texture %>
-</p>
-
-<p>
-  <strong>Thickness:</strong>
-  <%= @tape.thickness %>
-</p>
-
-<p>
-  <strong>Wide:</strong>
-  <%= @tape.wide %>
-</p>
-
-<p>
-  <strong>Length:</strong>
-  <%= @tape.length %>
-</p>
-
-<p>
-  <strong>Raw weight:</strong>
-  <%= @tape.raw_weight %>
-</p>
-
-<p>
-  <strong>Put weight:</strong>
-  <%= @tape.put_weight %>
-</p>
-
-<p>
-  <strong>Out weight:</strong>
-  <%= @tape.out_weight %>
-</p>
-
-<p>
-  <strong>Residue weight:</strong>
-  <%= @tape.residue_weight %>
-</p>
-
-<p>
-  <strong>Tape num:</strong>
-  <%= @tape.tape_num %>
-</p>
-
-<%= link_to 'Edit', edit_tape_path(@tape) %> |
-<%= link_to 'Back', tapes_path %>
+    <p>&nbsp;</p>
+    <p><br>
+    </p>

@@ -1,0 +1,145 @@
+  <table width="100%" border="0" cellspacing="0" cellpadding="0">
+    <tr>
+      <td height="25" align="center" valign="bottom" class="td06"><table width="98%" border="0" cellspacing="3" cellpadding="0">
+          <tr>
+            <td width="15"><img src="<%=image_path('index_32.gif')%>" width="9" height="9"></td>
+            <td valign="bottom" class="title">追加计划</td>
+          </tr>
+      </table></td>
+    </tr>
+  </table>
+<%= form_tag('/plans/append/plan', :class => 'form-horizontal', :id => "plan_create") do -%>
+    <h3>原材料</h3>
+    <hr style="border:2px solid blue;">
+    <table width="95%" border="0" cellspacing="0" cellpadding="0">
+      <tr>
+        <td width="120" height="24" class="td_form01">开平钢卷对应计划id</td>
+        <td class="td_form02">
+          <%= text_field_tag "plan_id","", :class => "input required"%>
+        </td>
+        <td width="90" height="24" class="td_form01">钢卷号</td>
+        <td class="td_form02">
+          <%= text_field_tag "tape_num","", :readonly => "readonly",:class => "input required"%>
+        </td>
+        <td width="90" height="24" class="td_form01">钢卷规格</td>
+        <td class="td_form02">
+          <%= text_field_tag "size","", :readonly => "readonly",:class => "input required"%>
+        </td>
+        <td width="120" height="24" class="td_form01">同规格计划唯一标示</td>
+        <td class="td_form02">
+          <%= text_field_tag "merge","", :readonly => "readonly",:class => "input required"%>
+        </td>
+      </tr>
+    </table>
+    <h3>成品</h3>
+    <hr>
+    <div>
+      <table width="95%" border="0" cellspacing="0" cellpadding="0">
+        <tr>
+          <td width="90" height="24" class="td_form01">规格(厚x宽x长)</td>
+          <td class="td_form02">
+            <%= text_field_tag "new_size","", :class => "input required"%>
+          </td>
+          <td width="90" class="td_form01">加工张数</td>
+          <td class="td_form02">
+             <%= text_field_tag "final_sheet","", :class => "input required"%>
+          </td>
+          <td class="td_form01">送往单位</td>
+          <td class="td_form02">
+            <%= radio_button_tag "to", '剪切', :class => "required"%> 剪切
+            <%= radio_button_tag "to", '留库', :class => "required"%>留库
+            <%= radio_button_tag "to", '其他', true, :class => "required"%>
+            其他：<%= text_field_tag "tmp_to", "", :class => "input"%>
+          </td>
+        </tr>
+        <tr>
+          <td height="24" class="td_form01">重要程度</td>
+          <td class="td_form02">
+            <%= select_tag "is_urgency", "<option selected='selected' value='0'>一般</option><option value='1'>紧急</option>".html_safe, :class => "input"%>
+          </td>
+          <td height="24" class="td_form01">是否表面件</td>
+          <td class="td_form02">
+            <%= radio_button_tag "is_declicacy", '1'%> 是
+            <%= radio_button_tag "is_declicacy", '0', true%>否
+          </td>
+          <td class="td_form01">公差</td>
+          <td class="td_form02">
+            <%= radio_button_tag "allowance", '+0.5', true%> +0.5
+            <%= radio_button_tag "allowance", '-0.5'%> -0.5
+            <%= radio_button_tag "allowance", '+1'%> +1
+          </td>
+        </tr>
+        <tr>
+          <td height="24" class="td_form01">完工日期</td>
+          <td class="td_form02">
+            <input type="date" name="finish_at" id="finish_at" value="<%=@tomorrow%>" class="input required" />
+          </td>
+          <td class="td_form01">备注</td>
+          <td class="td_form02" colspan="3">
+            <%= text_area_tag "remark", "", :class => "input"%>
+          </td>
+        </tr>
+      </table>
+    </div>
+    <br>
+    <table width="95%" border="0" align="center" cellpadding="0" cellspacing="0">
+      <tr>
+        <td align="center">
+          <input name=save  type="submit" class=buttonface value= '  提交  '>        
+        <input name="Submit" type="button" class="buttonface" value="取消" onClick="history.back(-1)"></td>
+      </tr>
+    </table>
+    <p>&nbsp;</p>
+    <p><br>
+    </p>
+  <%end -%>
+
+  <script type="text/javascript">
+  function add_children(tape_id){
+    var html = "";    
+    var index = parseInt($("#"+tape_id).attr("index"))
+    $("#"+tape_id).attr("index", index+1)
+    $("#index"+tape_id).val(index+1);
+    $.ajax({
+          type:"get",
+          dataType:"text",
+          url: "/plans/search/format_html?tape_id="+tape_id+"&index="+$("#"+tape_id).attr("index"),
+          contentType: "application/json; charset=utf-8", 
+          success:function(result){
+            result = eval("(" + result + ")");
+            html = result.html;
+            $("#chengpin"+tape_id).append(html);
+          }
+        });
+    
+  }
+  $().ready(function() { 
+        $("#plan_create").validate(); 
+        $("#plan_id").blur(function(){
+          var plan_id = $('#plan_id').val();
+          $.ajax({
+            type:"get",
+            dataType:"text",
+            url: "/plans/append/plan_json?id="+plan_id,
+            contentType: "application/json; charset=utf-8", 
+            success:function(result){
+              result = eval("(" + result + ")");
+              if(result.code == 0){
+                alert("请检查计划id是否正确");
+                $("#tape_num").val("");
+                $("#size").val("");
+                $("#merge").val("");
+                return;
+              }
+              $("#tape_num").val(result.tape.tape_num);
+              var wide = result.tape.wide
+              var thickness = result.tape.thickness
+              $("#size").val(thickness+"x"+wide+"xc");
+              $("#merge").val(result.plan.tape_merge);
+            }
+          });
+        })
+  }); 
+
+
+</script>

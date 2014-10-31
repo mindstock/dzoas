@@ -1,5 +1,7 @@
 class BagsController < ApplicationController
   include BagsHelper
+  include PlansHelper
+  include NickelcladsHelper
 
   before_action :set_bag, only: [:show, :edit, :update, :destroy]
 
@@ -21,10 +23,13 @@ class BagsController < ApplicationController
 
   def create
     unless bag_params[:sheet].empty?
-      @bag = Bag.new(bag_params)
-      @bag.save 
+      nickelclad_id, complete_plan_id = bag_params[:nickelclad_id], bag_params[:complete_plan_id]
+      sheet_split bag_params
+      sheet = bat_sheet(nickelclad_id)
+      plan_update_by_hash bag_params[:complete_plan_id], {real_final_sheet: sheet}
+      nickelclad_update_by_hash bag_params[:nickelclad_id], {real_final_sheet: sheet}
     end
-    redirect_to '/plans/spread/1'
+    redirect_to '/plans/check/list/1?menu=7'
   end
 
   def update
@@ -43,6 +48,6 @@ class BagsController < ApplicationController
     end
 
     def bag_params
-      params.permit(:sheet, :is_nickelclad_top, :nickelclad_id)
+      params.permit(:sheet, :is_nickelclad_top, :nickelclad_id, :complete_plan_id)
     end
 end

@@ -1,7 +1,7 @@
 function update_status(id, status){
     var pd = ""
     var rpd = "123"
-    if (status == 3){
+    if (status == 3 || status == 4){
       pd = prompt("请输入密码：")
       if(pd != rpd){
         alert("密码不正确！");
@@ -34,27 +34,7 @@ function update_status(id, status){
     location.href = "/plans/send/message?type=1&employee_id="+type_id
   }
 
-  function complete_plan(){
-    var plan_id = $("#complete_plan_id").val();
-    var pd = ""
-    var rpd = "123"
-    var sheet = $("#sheet").val();
-    var is_nickelclad_top = $("#is_nickelclad_top").val();
-    pd = prompt("请输入密码：")
-    if(pd != rpd){
-        alert("密码不正确！");
-    }else{
-      location.href = "/plans/spread/complete_plan/"+plan_id+"?sheet="+sheet+"&is_nickelclad_top="+is_nickelclad_top
-      
-    }
-    
-  }
-
-  function complete_model(plan_id, nickelclad_id){
-    $("#nickelclad_id").val(nickelclad_id);
-    $("#complete_plan_id").val(plan_id);
-    $('#complete').modal('show');
-  };
+ 
 
   function up_tape_model(plan_id, tape_id){
     $("#tape_id").val(tape_id);

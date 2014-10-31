@@ -6,17 +6,19 @@ class PlansController < ApplicationController
   include PlansHelper
   include NickelcladsHelper
   include BagsHelper
+  include TapeLogsHelper
 
   protect_from_forgery :except => [:add_place_num]
 
+  before_action :set_menu
   before_action :set_plan, only: [:show, :edit, :update, :destroy]
   before_action :search_init, only: [:search_tapes, :search]
   before_action :set_plan_status, only: [:index, :spread]
 
+
   # GET /plans
   # GET /plans.json
   def index
-    user_session[:menu] = params[:menu]
     department = params[:department] ||= 1
     history = params[:history] ||= 1
     finish_at = params[:finish_at]
@@ -40,6 +42,25 @@ class PlansController < ApplicationController
     @plans = Plan.where(tape_id: plan.tape.id, status: 4)
     @quclity_checks = QuclityCheck.where(plan_id: plan.id)
     render(:layout => "head") if params[:type].to_i == 1
+  end
+
+  #追加计划
+  def append_new_plan
+    append params
+    redirect_to '/plans'
+  end
+
+  def get_plan_for_json
+    begin
+      plan = Plan.find(params[:id])
+      tape = Tape.find(plan.tape_id)
+      json = {code:1, plan: plan, tape: tape}
+      render :json => json, status => "200 ok"
+    rescue Exception => e
+      json = {code: 0}
+      render :json => json
+    end
+    
   end
 
   def get_format_html
@@ -96,73 +117,61 @@ class PlansController < ApplicationController
   end
 
   def update_status
-
-    @plan = Plan.find(params["id"])
     id, status = params["id"], params["status"].to_i
+    @plan = Plan.find(id)
+    
     # send_mail_by_status status, @plan
     if status == 4
       @plans = Plan.where(tape_id: @plan.tape.id, status: 4)
-      render :template => "plans/complete_plan", :layout => false
+      #更新任务状态
+      update_status_by_status id, 4  #更新任务状态
+      _nickelclad_params = {
+        # real_final_sheet: real_final_sheet,
+        real_finish_at: Time.now.strftime("%Y-%m-%d %H:%M"),
+        status: 1
+      }
+      plan_update_by_hash id, {real_finish_at: Time.now.strftime("%Y-%m-%d %H:%M")}
+      nickelclad_update_by_hash @plan.nickelclad.id, _nickelclad_params
+      # render :template => "plans/complete_plan", :layout => false
     elsif status == 2 or status ==1
       plan_update_status_by_tape @plan.tape.id, status
-      redirect_to "/plans/spread/1"
     else
       update_status_by_status id, status
       update_order @plan.tape_merge
-      redirect_to "/plans/spread/1"
     end
+    redirect_to "/plans/spread/1"
+
   end
 
   def complete_plan
     plan_id = params[:id]    #得到计划id
     plan = Plan.find(plan_id)
     tape, nickelclad = plan.tape, plan.nickelclad
-    unless params[:sheet].empty?
-      bag = Bag.new
-      bag.sheet = params[:sheet]
-      bag.is_nickelclad_top = params[:is_nickelclad_top].to_i
-      bag.nickelclad_id = nickelclad.id
-      bag.save
-    end
-    
     #更新任务状态
     update_status_by_status plan_id, 4  #更新任务状态
 
-    #真实剪切张数
-    real_final_sheet = Bag.where(nickelclad_id: plan.nickelclad.id, is_nickelclad_top: 0).sum("sheet").to_i
-    #更新完成时间 更新计划剪切件数
-    plan_update_by_hash plan_id.to_i, {real_finish_at: Time.now.strftime("%Y-%m-%d %H:%M"), real_final_sheet: real_final_sheet}
+
     #计算剩余卷重= 
-    out_weight = tape.out_weight.to_i
-    residue_weight = _residue_weight = tape.residue_weight.to_i
+    # out_weight = tape.out_weight.to_i
+    # residue_weight = _residue_weight = tape.residue_weight.to_i
 
-    plan_num = Plan.where(tape_id: tape, status: [-1, 0, 1, 2, 3]).count
-    if tape.status == 1
-      residue_weight = _residue_weight - (real_final_sheet * 7.85 * (nickelclad.length.to_f / 1000) * (nickelclad.wide.to_f / 1000) * nickelclad.thickness.to_f)
-      out_weight = _residue_weight - residue_weight
-    else
-      if plan_num == 0
-        out_weight = out_weight + _residue_weight
-        residue_weight = 0
-      end
-    end
-    _hash = {
-      "out_weight" => out_weight,
-      "residue_weight" => residue_weight
-    }
-    #更新钢卷库存信息
-    tape_update_by_hash plan.tape.id, _hash
-
-
-    final_sheet = plan.final_sheet
-    _nickelclad_params = {
-      real_final_sheet: real_final_sheet,
-      real_finish_at: Time.now.strftime("%Y-%m-%d %H:%M"),
-      status: 1
-    }
-    nickelclad_update_by_hash plan.nickelclad.id, _nickelclad_params
-
-    update_final_sheet final_sheet, real_final_sheet, plan.tape_merge
+    # plan_num = Plan.where(tape_id: tape, status: [-1, 0, 1, 2, 3]).count
+    # if tape.status == 1
+    #   residue_weight = _residue_weight - (real_final_sheet * 7.85 * (nickelclad.length.to_f / 1000) * (nickelclad.wide.to_f / 1000) * nickelclad.thickness.to_f)
+    #   out_weight = _residue_weight - residue_weight
+    # else
+    #   if plan_num == 0
+    #     out_weight = out_weight + _residue_weight
+    #     residue_weight = 0
+    #   end
+    # end
+    # _hash = {
+    #   "out_weight" => out_weight,
+    #   "residue_weight" => residue_weight
+    # }
+    # #更新钢卷库存信息
+    # tape_update_by_hash plan.tape.id, _hash
+    # update_final_sheet final_sheet, real_final_sheet, plan.tape_merge
     
     redirect_to "/plans/spread/1"
   end
@@ -209,6 +218,44 @@ class PlansController < ApplicationController
     redirect_to "/plans/spread/1"
   end
 
+  def check_plan
+    user_session[:menu] = params[:menu]
+    department = params[:department] ||= 1
+    history = params[:status] ||= 4
+    finish_at = params[:finish_at]
+    @plans = check_list(department, finish_at, params[:page], history)
+    @view_params = {status: history.to_i, department: department, finish_at: finish_at}
+  end
+
+  def check_plan_bag
+    nickelclad_id, plan_id = params[:nickelclad_id], params[:plan_id]
+    unless params[:sheet].empty?
+      bag_creat params
+    end
+    #真实剪切张数
+    real_final_sheet = bat_sheet plan.nickelclad.id
+    #更新完成时间 更新计划剪切件数
+    plan_update_by_hash plan_id, {real_finish_at: Time.now.strftime("%Y-%m-%d %H:%M")}
+    redirect_to '/plans/check/list/1'
+  end
+
+  def complete_check
+    plan_ids = params[:plan_ids].split(',')
+    status = 5
+    plan_ids.each do |plan_id|
+      plan = Plan.find(plan_id)
+      update_status_by_status plan_id, status  #更新任务状态
+      #计划状态不等于5 该钢卷开平其他规格
+      count = get_plans_for_weigth(plan.tape.id, status).length
+      if count == 0
+        weight = tape_out(plan)
+        log_create weight, plan.tape.id, 0
+      end
+    end
+    redirect_to '/plans/check/list/1'
+  end
+
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_plan_status
@@ -224,7 +271,8 @@ class PlansController < ApplicationController
         1 => "待上料",
         2 => "待开始",
         3 => "进行中",
-        4 => "完成"
+        4 => "待审核",
+        5 => "待入库"
       }
       @plan_status_button = {
         0 => "接收",
@@ -249,5 +297,9 @@ class PlansController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def plan_params
       params.require(:plan).permit(:thickness, :wide, :length, :final_sheet, :final_piece, :final_row, :finish_at, :real_finish_at, :is_urgency, :allowance, :is_declicacy, :to, :status)
+    end
+
+    def set_menu
+      user_session[:menu] = params[:menu]
     end
 end

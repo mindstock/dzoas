@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141021033514) do
+ActiveRecord::Schema.define(version: 20141030070739) do
 
   create_table "bags", force: true do |t|
     t.string   "sheet"
@@ -98,6 +98,7 @@ ActiveRecord::Schema.define(version: 20141021033514) do
     t.string   "tape_merge"
     t.integer  "place_num"
     t.integer  "order"
+    t.integer  "is_append"
   end
 
   create_table "powers", force: true do |t|
@@ -129,6 +130,15 @@ ActiveRecord::Schema.define(version: 20141021033514) do
     t.integer "power_id"
   end
 
+  create_table "tape_logs", force: true do |t|
+    t.integer  "exec_type"
+    t.integer  "num"
+    t.string   "finish_at"
+    t.integer  "tape_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "tapes", force: true do |t|
     t.string   "from"
     t.string   "place"
@@ -144,6 +154,8 @@ ActiveRecord::Schema.define(version: 20141021033514) do
     t.date     "created_at"
     t.datetime "updated_at"
     t.integer  "status",         default: 0
+    t.string   "out_at"
+    t.string   "profit"
   end
 
   create_table "users", force: true do |t|

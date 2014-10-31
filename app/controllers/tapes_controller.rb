@@ -6,6 +6,7 @@ class TapesController < ApplicationController
   before_action :set_where, only:[:index]
   before_action :status_info, only:[:index, :search, :plan_search]
   before_action :search_init, only:[:plan_search]
+  before_action :tape_out_info, only:[:index, :plan_search, :search]
 
   #上传excel
   def upload
@@ -31,7 +32,8 @@ class TapesController < ApplicationController
   # GET /tapes.json
   def index
     user_session[:menu] = params[:menu]
-    @tapes = Tape.where("status != 2").page(params[:page])
+    type = params[:type] ||= 'all'
+    @tapes = get_list params[:page], type
   end
 
   # GET /tapes/1
@@ -112,5 +114,11 @@ class TapesController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def tape_params
       params.permit(:from, :place, :texture, :thickness, :wide, :length, :raw_weight, :put_weight, :out_weight, :residue_weight, :tape_num)
+    end
+
+    def tape_out_info
+      @day = get_out_weight 'day'
+      @month = get_out_weight 'month'
+      @year = get_out_weight 'year'
     end
 end

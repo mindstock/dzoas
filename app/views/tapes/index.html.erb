@@ -32,25 +32,39 @@ function windowOpen(theURL,winName,features,width,hight,scrollbars,top,left)
 <table width="100%"  border="0" align="center" cellpadding="0" cellspacing="0">
   <tr>
     <td class="td_page">
+      <span style="color:red">当天出库总量</span>：
+      <a href="/tapes?type=day"><%=@day[0]%>KG &nbsp;&nbsp;钢卷数：<%=@day[1]%>个&nbsp;&nbsp;&nbsp;</a>
+      <span style="color:red">当月出库总量</span>：
+      <a href="/tapes?type=month"><%=@month[0]%>KG &nbsp;&nbsp;钢卷数：<%=@month[1]%>个&nbsp;&nbsp;&nbsp;</a>
+      <span style="color:red">年度出库总量</span>：
+      <a href="/tapes?type=year"><%=@year[0]%>KG &nbsp;&nbsp;钢卷数：<%=@year[1]%>个&nbsp;&nbsp;&nbsp;</a>
+    </td>
+  </tr>
+</table>
+<br>
+<%if params[:type] == 'all'%>
+<table width="100%"  border="0" align="center" cellpadding="0" cellspacing="0">
+  <tr>
+    <td class="td_page">
       <%= form_tag('/tapes/store/search', multipart: true) do -%>
         任务状态：
-         <select class="form-control" name="status", id="status">
-                            <%@status_info.each do|key, value|%>
-                            <option value="<%=key%>" <%if @where[:status]==key.to_s%>selected<%end%>><%=value%></option>
-                            <%end%>
+         <select name="status", id="status">
+          <%@status_info.each do|key, value|%>
+          <option value="<%=key%>" <%if @where[:status]==key.to_s%>selected<%end%>><%=value%></option>
+          <%end%>
         </select>
-        
+      钢卷号：<%= text_field_tag 'tape_num',"#{@where[:tape_num]}", :class => "input"%>
       材质：<%= text_field_tag 'texture',"#{@where[:texture]}", :class => "input"%>
       钢卷规格：<%= text_field_tag 'size',"#{@where[:size]}", :class => "input"%>
       库位：<%= text_field_tag 'place',"#{@where[:place]}", :class => "input"%>
-      <input name="Submit2" type="submit" class="buttonface02" value="查询">
+      <input name="Submit2" type="submit" class="buttonface02" value="查询"><br>
       <a href="/tapes/store/upload_file">导入库存excel</a>
       <a href="/tapes/new">添加钢卷</a>
       <%end -%>
     </td>
   </tr>
 </table>
-<br>
+<%end%>
 <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0" style="table-layout:fixed">
   <tr> 
     <td nowrap class="td_top">ID</td>
@@ -62,6 +76,9 @@ function windowOpen(theURL,winName,features,width,hight,scrollbars,top,left)
      <td nowrap class="td_top">钢卷号</td>
      <td nowrap class="td_top">状态</td>
      <td nowrap class="td_top">入库日期</td>
+    <%if params[:type] != 'all'%>
+      <td nowrap class="td_top">盈利</td>
+    <%end%>
      <td nowrap class="td_top">操作</td>
   </tr>
   <%@tapes.each do|tape|%>
@@ -75,8 +92,15 @@ function windowOpen(theURL,winName,features,width,hight,scrollbars,top,left)
       <td class="td_01" id="tape_num"><%=tape.tape_num%></td>
       <td class="td_01" id="status"><%=@status_info[tape.status]%></td>
       <td class="td_01" id="exec"><%=tape.created_at%></td>
+      <%if params[:type] != 'all'%>
+        <td class="td_01" id="exec"><%=tape.profit%></td>
+      <%end%>
       <td>
-        <%= link_to '编辑', edit_tape_path(tape), :class=>"td_01"%>
+        <%if params[:type] == 'all'%>
+          <%= link_to '编辑', edit_tape_path(tape), :class=>"td_01"%>
+        <%else%>
+          <%= link_to '详细', tape_path(tape), :class=>"td_01"%>
+        <%end%>
       </td>
     </tr>   
     
