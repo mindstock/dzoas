@@ -1,8 +1,8 @@
 require 'spreadsheet'
 
 module TapesHelper
-	# File_root = '/js/sydz/dzoas/tapes.xls'
-	File_root = '/home/wwwroot/dzoas/public/upload/public_file'
+	File_root = '/Users/mindstock/Documents/code/ruby/sydz/dzoas/public'
+	# File_root = '/home/wwwroot/dzoas/public/upload/public_file'
 	Excel_name = File_root + "/tapes.xls"
 
 	def mkdirs(path)
@@ -66,7 +66,7 @@ module TapesHelper
   		#剩余数量  出库数量
   		_resdue_weight, _out_weight = tape.residue_weight.to_i, tape.out_weight.to_i
   		resdue_weight, out_weight = 0, 0
-  		weight = 0
+  		weight, profit = 0, nil
   		if tape.status == 1    #收卷
   			plans = Plan.where(tape_id: tape_id, tape_merge: plan_merge)
   			weight = get_tape_weight_by_plans(plans)
@@ -76,8 +76,8 @@ module TapesHelper
   			weight = _resdue_weight
   			out_weight = _out_weight + weight
   			residue_weight = 0
+        profit = get_profit(tape) - tape.raw_weight
   		end 
-      profit = get_profit(tape) - tape.raw_weight
   		tape_update_by_hash tape_id, {profit: profit, out_weight: out_weight, residue_weight: residue_weight, out_at: Time.now.strftime("%Y-%m-%d %H:%M")}
   		weight
   	end
@@ -100,21 +100,21 @@ module TapesHelper
   	def get_tape_weight_by_plans plans
   		_out_weight = 0
   		#real_final_sheet * 7.85 * (nickelclad.length.to_f / 1000) * (nickelclad.wide.to_f / 1000) * nickelclad.thickness.to_f)
-		puts plans.length
-  		plans.each do |plan|
-  			nickelclad = plan.nickelclad
-  			_out_weight += get_weight nickelclad.real_final_sheet, nickelclad.length, nickelclad.wide, nickelclad.thickness
+  		puts plans.length
+    		plans.each do |plan|
+    			nickelclad = plan.nickelclad
+    			_out_weight += get_weight nickelclad.real_final_sheet, nickelclad.length, nickelclad.wide, nickelclad.thickness
 
-  			#判断是否有板头
-  			bags = Bag.where(nickelclad_id: nickelclad.id, is_nickelclad_top: 1)
-  			if bags.length > 0
-  				bags.each do |bag|
-  					_out_weight += get_weight 1, (bag.sheet.to_f * 1000), nickelclad.wide, nickelclad.thickness
-  				end
-  			end
-  		end
-  		_out_weight
-  	end
+    			#判断是否有板头
+    			bags = Bag.where(nickelclad_id: nickelclad.id, is_nickelclad_top: 1)
+    			if bags.length > 0
+    				bags.each do |bag|
+    					_out_weight += get_weight 1, (bag.sheet.to_f * 1000), nickelclad.wide, nickelclad.thickness
+    				end
+    			end
+    		end
+    		_out_weight
+    	end
 
 	def get_tapes_by_ids ids
 		tapes = []
@@ -166,29 +166,36 @@ module TapesHelper
 		i = 0
 		book.worksheets.each do |sheet|
 		  sheet.each 3 do |row|
-		  	from = row[0].to_s
-		  	# next if from.empty?
-		  	tape_num = row[15].to_s.gsub(/\.0/,"")
-		  	next if tape_num.to_s.empty? or tape_num_exist?(tape_num)
-		    tape = Tape.new
-			tape.from = row[0]
-			tape.place = row[12]
-			tape.texture = row[2]
-			size = row[3].to_s.split('*')
-			tape.thickness = size[0]
-			tape.wide = size[1]
-			tape.length = size[2]
-			tape.raw_weight = row[5]
-			tape.put_weight = row[7]
-			tape.out_weight = row[9]
-			tape.residue_weight = row[11].value
-			if tape.residue_weight.to_i <= 0
-				tape.status = 2			#用完
-			else 
-				tape.status = 0			#新卷
-			end
-			tape.tape_num = tape_num
-			tape.save
+        begin
+          from = row[0].to_s
+          # next if from.empty?
+          tape_num = row[15].to_s.gsub(/\.0/,"")
+          next if tape_num.to_s.empty? or tape_num_exist?(tape_num)
+          tape = Tape.new
+          tape.from = row[0]
+          tape.place = row[12]
+          tape.texture = row[2]
+          size = row[3].to_s.split('*')
+          tape.thickness = size[0]
+          tape.wide = size[1]
+          tape.length = size[2]
+          tape.raw_weight = row[5]
+          tape.put_weight = row[7]
+          tape.out_weight = row[9]
+          tape.residue_weight = row[11].value
+          if tape.residue_weight.to_i <= 0
+            tape.status = 2     #用完
+          elsif tape.put_weight.to_i > 0
+            tape.status = 1     #收卷
+          else
+            tape.status = 0     #新卷
+          end
+          tape.tape_num = tape_num
+          tape.save
+        rescue Exception => e
+          next
+        end
+		  	
 		  end
 		end
 	end

@@ -39,19 +39,19 @@
   </tr>
   <%@tapes.each do|tape|%>
     <tr> 
-                        <td class="td_01" id="id"><%=tape.id%></td>
-                        <td class="td_01" id="from"><%=tape.from%></td>
-                        <td class="td_01" id="place"><%=tape.place%></td>
-                        <td class="td_01" id="place"><%=tape.texture%></td>
-                        <td class="td_01" id="size"><%=tape.thickness%>*<%=tape.wide%>*<%=tape.length%></td>
-                        <td class="td_01" id="residue_weight"><%=tape.residue_weight%></td>
-                        <td class="td_01" id="tape_num"><%=tape.tape_num%></td>
-                        <td class="td_01" id="creat"><%=tape.created_at%></td>
-                        <td class="td_01" id="creat"><%=@status_info[tape.status]%></td>
-                        <td class="td_01" id="num"><%=(tape.residue_weight.to_f/(tape.wide.to_f/1000)/tape.thickness.to_f/7.85/(@where[:size].split('*')[2].to_f/1000)).to_i%></td>
-                        <td class="td_01">
-                          <%=check_box_tag "tape_id", "#{tape.id}"%>
-                        </td>
+        <td class="td_01" id="id"><%=tape.id%></td>
+        <td class="td_01" id="from"><%=tape.from%></td>
+        <td class="td_01" id="place"><%=tape.place%></td>
+        <td class="td_01" id="place"><%=tape.texture%></td>
+        <td class="td_01" id="size"><%=tape.thickness%>*<%=tape.wide%>*<%=tape.length%></td>
+        <td class="td_01" id="residue_weight"><%=tape.residue_weight%></td>
+        <td class="td_01" id="tape_num"><%=tape.tape_num%></td>
+        <td class="td_01" id="creat"><%=tape.created_at%></td>
+        <td class="td_01" id="creat"><%=@status_info[tape.status]%></td>
+        <td class="td_01" id="num"><%=(tape.residue_weight.to_f/(tape.wide.to_f/1000)/tape.thickness.to_f/7.85/(@where[:size].split('*')[2].to_f/1000)).to_i%></td>
+        <td class="td_01">
+          <%=check_box_tag "tape_id", "#{tape.id}"%>
+        </td>
     </tr>
   <%end%>     
 </table>

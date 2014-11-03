@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  plan_type: 1
+  first_status: MyString
+  last_status: MyString
+
+two:
+  plan_type: 1
+  first_status: MyString
+  last_status: MyString

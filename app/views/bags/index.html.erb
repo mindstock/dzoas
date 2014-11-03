@@ -1,29 +1,32 @@
-<h1>Listing bags</h1>
-
-<table>
-  <thead>
-    <tr>
-      <th>Sheet</th>
-      <th>Type</th>
-      <th></th>
-      <th></th>
-      <th></th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @bags.each do |bag| %>
+  <table width="100%" border="0" align="center" cellspacing="0" cellpadding="0">
+  <tr>
+    <td height="25" align="center" valign="bottom" class="td06"><table width="98%" border="0" cellspacing="3" cellpadding="0">
       <tr>
-        <td><%= bag.sheet %></td>
-        <td><%= bag.type %></td>
-        <td><%= link_to 'Show', bag %></td>
-        <td><%= link_to 'Edit', edit_bag_path(bag) %></td>
-        <td><%= link_to 'Destroy', bag, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td width="15"><img src="<%=image_path('index_32.gif')%>" width="9" height="9"></td>
+        <td valign="bottom" class="title">分包明细-钢板规格：<%=@nickelclad.thickness%>*<%=@nickelclad.wide%>*<%=@nickelclad.length%></td>
+        <td valign="bottom" align="right" class="title"><%= link_to "新增角色", "/roles/new"%></td>
       </tr>
-    <% end %>
-  </tbody>
+    </table></td>
+  </tr>
 </table>
-
 <br>
-
-<%= link_to 'New Bag', new_bag_path %>
+<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0" style="table-layout:fixed">
+  <tr> 
+    <td nowrap class="td_top">ID</td>
+    <td nowrap class="td_top">是否是板头</td>
+    <td nowrap class="td_top">数量</td>
+    <td nowrap class="td_top">操作</td>
+  </tr>
+  <%@nickelclad.bags.each do|bag|%>
+    <tr id="list">
+      <td class="td_01" id="id"><%=bag.id%></td>
+      <td class="td_01" id="id"><%if bag.is_nickelclad_top == 0%>否<%else%>是<%end%></td>
+      <td class="td_01" id="remark"><%=bag.sheet%></td>
+      
+      <td class="td_01">
+        <%= link_to '编辑', edit_bag_path(bag) %>
+        <%= link_to '删除', "/bags/del/nickelclad?id=#{bag.id}"%>
+      </td>
+    </tr>
+  <%end%>     
+</table>

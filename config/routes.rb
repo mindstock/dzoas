@@ -1,9 +1,13 @@
 Dzoas::Application.routes.draw do
+  resources :listens
+
   resources :tape_logs
 
   resources :bags
+  get '/bags/del/nickelclad' => "bags#del"
 
   resources :powers
+  get '/powers/del/:id' => "powers#del"
 
   resources :roles
 
@@ -30,6 +34,8 @@ Dzoas::Application.routes.draw do
   get '/employees/sys/users/new_sys' => 'employees#new_sys'
   get '/employees/sys/users/list' => 'employees#sys'
   get '/employees/sys/users/del' => 'employees#sys_del'
+  get '/employees/sys/user/update' => 'employees#sys_edit'
+  post '/employees/sys/user/update' => 'employees#sys_edit_save'
 
   resources :quclity_checks
 

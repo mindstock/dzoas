@@ -1,11 +1,11 @@
 class PowersController < ApplicationController
   include PowersHelper
-  before_action :set_power, only: [:show, :edit, :update, :destroy]
+  before_action :set_power, only: [:show, :edit, :update, :del]
   before_action :power_all, only: [:index, :new, :edit]
 
   def index
     user_session[:menu] = params[:menu]
-    get_navigation
+    # get_navigation user_session[:menu]
     @powers = Power.all
   end
 
@@ -17,8 +17,14 @@ class PowersController < ApplicationController
   end
 
   def create
-    @power = Power.new(power_params)
-    @power.save
+    if params[:id] and !params[:id].empty?
+      power = Power.find(params[:id])
+      power.update power_params
+    else
+      @power = Power.new(power_params)
+      @power.save
+    end
+    
     redirect_to '/powers'
   end
 
@@ -26,8 +32,10 @@ class PowersController < ApplicationController
     @power.update(power_params)
   end
 
-  def destroy
-    @power.destroy
+  def del
+    Power.connection.execute("delete from powers where id = #{params[:id]}")
+    redirect_to '/powers'
+    # @power.destroy
   end
 
   private

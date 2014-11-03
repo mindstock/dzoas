@@ -16,6 +16,7 @@
         <td class="td_form02">
           <%= text_field_tag 'name', "#{@role.name}", :class => "form-control"%>
           <%= hidden_field_tag 'id', "#{@role.id}"%>
+          <%= hidden_field_tag "power_id"%>
         </td>
       </tr>
       <tr>
@@ -25,14 +26,56 @@
         </td>
       </tr>
     </table>
-    <br>
+    <h5>对应菜单权限</h5>
+    <hr>
+    <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0" style="table-layout:fixed">
+  <tr> 
+    <td nowrap class="td_top">ID</td>
+    <td nowrap class="td_top">名字</td>
+    <td nowrap class="td_top">父菜单</td>
+     <td nowrap class="td_top">操作</td>
+  </tr>
+  <%@powers.each do|power|%>
+    <tr> 
+        <td class="td_01" id="id"><%=power.id%></td>
+        <td class="td_01" id="from"><%=power.name%></td>
+        <td class="td_01" id="place"><%=power.parent_id%></td>
+        <td class="td_01">
+          <input type="checkbox" id="sel_id" name="sel_id" value="<%= power.id%>" <%if @power_ids.include? power.id%>checked<%end%>>
+        </td>
+    </tr>
+  <%end%>     
+</table>
     <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
       <tr>
         <td align="center">
-          <%= submit_tag '提交', :class => 'btn btn-success'%>
+          <%= submit_tag '提交', :id => 'role_sub', :class => 'btn btn-success'%>
          <%= submit_tag '返回', :class => 'btn btn-info'%>
       </tr>
     </table>
+
+ <script type="text/javascript">
+      $("#role_sub").click(function (){
+          var s='';
+          var i = 0;
+          $('input[name="sel_id"]:checked').each(function(){
+            s+=$(this).val()+',';
+            i += 1;
+          });
+          if(i < 1){
+            alert("至少选择两个");
+          }else{
+            $("#power_id").val(s);
+            // location.href = "/plans/new?tapes_id="+s+"&department=1&new_size="+$("#size").val();
+          }
+          
+        });
+
+      $().ready(function() { 
+        $("#search_form").validate(); 
+      }); 
+    </script>
+
     <p>&nbsp;</p>
     <p><br>
     </p>

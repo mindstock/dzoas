@@ -1,9 +1,14 @@
 class RolesController < ApplicationController
+  include RolesHelper
+  include RolesHelper
+  
   before_action :set_role, only: [:show, :edit, :update, :destroy]
+  before_action :set_powers, only: [:new, :edit]
 
   def index
     user_session[:menu] = params[:menu]
     @roles = Role.all
+
   end
 
   def show
@@ -15,6 +20,7 @@ class RolesController < ApplicationController
   end
 
   def edit
+      @power_ids = get_power_ids_by_role_id @role.id
   end
 
   def create
@@ -24,6 +30,8 @@ class RolesController < ApplicationController
     else
       @role = Role.find(params[:id])
       @role.update(role_params)
+      del_power @role.id
+      add_power @role.id, params[:power_id].split(',')
     end
     redirect_to '/roles'
   end
@@ -39,6 +47,11 @@ class RolesController < ApplicationController
   end
 
   private
+
+    def set_powers
+      @powers = Power.all
+
+    end
     def set_role
       @role = Role.find(params[:id])
     end

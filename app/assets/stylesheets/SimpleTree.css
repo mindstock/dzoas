@@ -6,9 +6,13 @@ Date：2011.11.25 0:12
 Version：SimpleTree 1.0
 */
 
+.st_tree{ 
+	padding:10px;
+}
 
 /* 超链接 */
 .st_tree a{ 
+	color:#222; 
 	text-decoration:none; 
 }
 
@@ -20,7 +24,7 @@ Version：SimpleTree 1.0
 
 /* 菜单 */
 .st_tree ul{ 
-	padding:0 16px; 
+	padding:0 0 0 18px; 
 	margin:0; 
 }
 
@@ -56,4 +60,8 @@ Version：SimpleTree 1.0
 	background:url(/assets/st_folder_open.gif); 
 	background-repeat:no-repeat; 
 	padding:0 0 0 20px; 
+}
+
+.st_tree .hover{
+	background-color:#ffa;
 }

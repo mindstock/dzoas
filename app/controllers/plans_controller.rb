@@ -132,6 +132,8 @@ class PlansController < ApplicationController
       }
       plan_update_by_hash id, {real_finish_at: Time.now.strftime("%Y-%m-%d %H:%M")}
       nickelclad_update_by_hash @plan.nickelclad.id, _nickelclad_params
+
+      
       # render :template => "plans/complete_plan", :layout => false
     elsif status == 2 or status ==1
       plan_update_status_by_tape @plan.tape.id, status

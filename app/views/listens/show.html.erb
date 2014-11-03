@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Plan type:</strong>
+  <%= @listen.plan_type %>
+</p>
+
+<p>
+  <strong>First status:</strong>
+  <%= @listen.first_status %>
+</p>
+
+<p>
+  <strong>Last status:</strong>
+  <%= @listen.last_status %>
+</p>
+
+<%= link_to 'Edit', edit_listen_path(@listen) %> |
+<%= link_to 'Back', listens_path %>

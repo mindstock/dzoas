@@ -32,7 +32,18 @@ class EmployeesController < ApplicationController
   def sys_del
     user_id = params[:user_id]
     sys_user_del user_id
-    redirect_to '/employees/sys/users/list?menu=13'
+    redirect_to '/employees/sys/users/list'
+  end
+
+  def sys_edit
+    @user = User.find(params[:user_id])
+    @roles = Role.all
+  end
+
+  def sys_edit_save
+   user = User.find params[:id]
+   user.update params.permit(:username, :role_id)
+   redirect_to '/employees/sys/users/list'
   end
 
 

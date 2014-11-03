@@ -1,0 +1,31 @@
+<h1>Listing listens</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Plan type</th>
+      <th>First status</th>
+      <th>Last status</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @listens.each do |listen| %>
+      <tr>
+        <td><%= listen.plan_type %></td>
+        <td><%= listen.first_status %></td>
+        <td><%= listen.last_status %></td>
+        <td><%= link_to 'Show', listen %></td>
+        <td><%= link_to 'Edit', edit_listen_path(listen) %></td>
+        <td><%= link_to 'Destroy', listen, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Listen', new_listen_path %>

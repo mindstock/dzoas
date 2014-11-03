@@ -34,7 +34,10 @@
       <td class="td_01" id="department"><%=user.last_sign_in_at%></td>
       <td class="td_01" id="department"><%=user.current_sign_in_ip%></td>
       <td class="td_01" id="department"><%=user.last_sign_in_ip%></td>
-      <td class="td_01" id="department"><%= link_to '删除', "/employees/sys/users/del?user_id=#{user.id}" %>&nbsp;&nbsp;</td>
+      <td class="td_01" id="department">
+        <%= link_to '编辑', "/employees/sys/user/update?user_id=#{user.id}"%>&nbsp;&nbsp;
+        <%= link_to '删除', "/employees/sys/users/del?user_id=#{user.id}" %>&nbsp;&nbsp;
+      </td>
     </tr>
   <%end%>     
 </table>

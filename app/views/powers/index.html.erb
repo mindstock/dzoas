@@ -27,8 +27,8 @@
       <td class="td_01" id="remark"><%=power.url%></td>
       <td class="td_01" id="remark"><%=power.remark%></td>
       <td class="td_01">
-        <%= link_to 'Edit', edit_power_path(power) %>&nbsp;&nbsp;
-        <%= link_to 'Destroy', power, method: :delete, data: { confirm: 'Are you sure?' } %>
+        <%= link_to '编辑', edit_power_path(power) %>&nbsp;&nbsp;
+        <%= link_to '删除', "/powers/del/#{power.id}"%>&nbsp;&nbsp;
       </td>
     </tr>
   <%end%>     

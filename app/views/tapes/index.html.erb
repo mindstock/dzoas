@@ -95,11 +95,11 @@ function windowOpen(theURL,winName,features,width,hight,scrollbars,top,left)
       <%if params[:type] != 'all'%>
         <td class="td_01" id="exec"><%=tape.profit%></td>
       <%end%>
-      <td>
+      <td class="td_01">
         <%if params[:type] == 'all'%>
-          <%= link_to '编辑', edit_tape_path(tape), :class=>"td_01"%>
+          <%= link_to '编辑', edit_tape_path(tape)%>
         <%else%>
-          <%= link_to '详细', tape_path(tape), :class=>"td_01"%>
+          <%= link_to '详细', tape_path(tape)%>
         <%end%>
       </td>
     </tr>   

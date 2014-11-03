@@ -3,26 +3,29 @@
       <td height="25" align="center" valign="bottom" class="td06"><table width="98%" border="0" cellspacing="3" cellpadding="0">
           <tr>
             <td width="15"><img src="<%=image_path('index_32.gif')%>" width="9" height="9"></td>
-            <td valign="bottom" class="title">分包明细修改</td>
+            <td valign="bottom" class="title">修改系统用户信息</td>
           </tr>
       </table></td>
     </tr>
   </table>
   <br>
-  <%= form_tag('/bags', :class => 'form-horizontal') do -%>
+  <%= form_tag('/employees/sys/user/update', :class => 'form-horizontal') do -%>
     <table width="100%" border="0" cellspacing="0" cellpadding="0">
       <tr>
-        <td width="90" height="24" class="td_form01">是否是板头</td>
+        <td width="90" height="24" class="td_form01">姓名</td>
         <td class="td_form02">
-
-          <input type="radio" name="is_nickelclad_top" id="is_nickelclad_top" value="1" <%if @bag.is_nickelclad_top == 1%>checked<%end%>>是
-            <input type="radio" name="is_nickelclad_top" id="is_nickelclad_top" value="0" <%if @bag.is_nickelclad_top == 0%>checked<%end%>>否
+          <%= text_field_tag 'username', "#{@user.username}", :class => "input"%>
+          <%= hidden_field_tag 'id', "#{@user.id}"%>
         </td>
-        <td width="90" height="24" class="td_form01">数量</td>
+      </tr>
+      <tr>
+        <td height="24" class="td_form01">角色</td>
         <td class="td_form02">
-          <%= text_field_tag 'sheet', "#{@bag.sheet}", :class => "form-control"%>
-          <%= hidden_field_tag 'id', "#{@bag.id}"%>
-          <%= hidden_field_tag 'nickelclad_id', "#{@bag.nickelclad_id}"%>
+          <select id="role_id" name="role_id" class ="input">
+            <%@roles.each do |role|%>
+              <option value="<%=role.id%>" <%if @user.role.id == role.id%>selected<%end%>><%=role.name%></option>
+            <%end%>
+          </select>
         </td>
       </tr>
     </table>
@@ -30,7 +33,7 @@
     <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
       <tr>
         <td align="center">
-          <%= submit_tag '提交', :class => 'btn btn-success'%>
+         <%= submit_tag '提交', :class => 'btn btn-success'%>
          <%= submit_tag '返回', :class => 'btn btn-info'%>
       </tr>
     </table>

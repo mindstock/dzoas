@@ -32,6 +32,7 @@
     <td nowrap class="td_top">材质</td>
     <td nowrap class="td_top">钢卷号</td>
     <td nowrap class="td_top">钢卷规格</td>
+    <td nowrap class="td_top">重量</td>
      <td nowrap class="td_top">加工规格</td>
      <td nowrap class="td_top">计划张数</td>
      <td nowrap class="td_top">实际张数</td>
@@ -57,6 +58,13 @@
       <td class="td_01" id="size">
         <%=plan.tape.thickness%>x<%=plan.tape.wide%>x<%=plan.tape.length%>
       </td>
+      <td class="td_01" id="weight">
+        <%if plan.tape.residue_weight.to_i == 0%>
+          <%=plan.tape.raw_weight%>
+        <%else%>
+          <%=plan.tape.residue_weight%>
+        <%end%>
+      </td>
       <td class="td_01" id="new_size">
         <%if index == 0 or (@plans[index-1].nickelclad.length!=plan.nickelclad.length or @plans[index-1].nickelclad.thickness!=plan.nickelclad.thickness or @plans[index-1].nickelclad.wide!=plan.nickelclad.wide)%>
 
@@ -76,12 +84,14 @@
       <td class="td_01" id="finish_at"><%=plan.nickelclad.to%></td>
       <td class="td_01" id="remark" style="word-wrap:break-word;"><%=plan.remark%></td>
       <td class="td_01">
+            <a href="/bags?nickelclad_id=<%=plan.nickelclad.id%>">
             <%plan.nickelclad.bags.each_with_index do|bag, index|%>
               <%=bag.sheet%>
               <%if index != plan.nickelclad.bags.length-1%>
               +
               <%end%>
             <%end%>
+          </a>
           </td>
       <td class="td_01">
         <%if @view_params[:status] == 4%>
@@ -93,6 +103,7 @@
      </td>
     </tr>
   <%end%> 
+
   <%if @view_params[:status] == 4%> 
     <tr>
       <td colspan="13" align="right"><button id="complete_check" type="button" class="btn btn-success btn-xs">完成审核</button></td>

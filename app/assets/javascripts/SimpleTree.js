@@ -1,7 +1,7 @@
 /*
 Author：张浩华
-Date：2011.11.25 0:12
-Version：SimpleTree 1.0
+Date：2011.11.27 0:33
+Version：SimpleTree 1.1
 */
 
 $(function(){
@@ -27,7 +27,7 @@ $(function(){
 			}/* option._init() End */
 			
 			/* 设置所有超链接不响应单击事件 */
-			this.find("a").click(function(){ $(this).parent("li").click(); return false; });
+			// this.find("a").click(function(){ $(this).parents("li").click(); return false; });
 			
 			/* 菜单项 <li> 接受单击 */
 			this.find("li").click(function(){
@@ -37,8 +37,9 @@ $(function(){
 				 * 2.修改当前菜单项所属的子菜单的显示状态（如果等于 true 将其设置为 false，否则将其设置为 true）
 				 * 3.重新初始化菜单
 				 */
-				
-				option.click($(this).find("a")[0]);	/* 触发单击 */
+				var a=$(this).find("a")[0];
+				if(typeof(a)!="undefined")
+					option.click(a);	/* 如果获取的超链接不是 undefined，则触发单击 */
 				
 				/* 
 				 * 如果当前节点下面包含子菜单，并且其 show 属性的值为 true，则修改其 show 属性为 false
@@ -53,6 +54,15 @@ $(function(){
 				/* 初始化菜单 */
 				option._init();
 			});
+			
+			this.find("li").hover(
+				function(){
+					$(this).addClass("hover");
+				},
+				function(){
+					$(this).removeClass("hover");
+				}
+			);
 			
 			/* 设置所有父节点样式 */
 			this.find("ul").prev("li").addClass("folder");
