@@ -60,6 +60,7 @@ module PlansHelper
             <input type="radio" name="allowance#{tape_id}-#{index}" id="allowance#{tape_id}-#{index}" value="+0.5" checked>+0.5
             <input type="radio" name="allowance#{tape_id}-#{index}" id="allowance#{tape_id}-#{index}" value="-0.5">-0.5
 	        <input type="radio" name="allowance#{tape_id}-#{index}" id="allowance#{tape_id}-#{index}" value="+1">+1
+	        <input type="radio" name="allowance#{tape_id}-#{index}" id="allowance#{tape_id}-#{index}" value="+2">+2
           </td>
         </tr>
         <tr>
@@ -177,7 +178,7 @@ module PlansHelper
 		where = "and finish_at = '#{finish_at}'" if finish_at and !finish_at.empty?
 			
 		if history.to_i == 1
-			Plan.where("status >=0 and status < 4 and department_id = #{department} #{where}").order(order: :desc)
+			Plan.where("status >=0 and status < 4 and department_id = #{department} #{where}").order(order: :desc, thickness: :desc)
 		elsif history.to_i == 2
 			Plan.where("department_id = #{department} and status >= 4 #{where}").order(finish_at: :desc).page(cur_page)
 		else
@@ -300,6 +301,7 @@ module PlansHelper
 
 
 		tape_ids.each_with_index do |tape, num|
+			_tape = Tape.find(tape)
 			index = params["index#{tape}"].to_i
 			#更新钢卷状态
 			update_tape_status tape, params["status#{tape}"].to_i
@@ -318,6 +320,7 @@ module PlansHelper
 				plan.final_sheet = params["final_sheet#{_tmp}"]
 
 				length = params["new_size#{_tmp}"].split("*")[2] 
+				plan.thickness = _tape.thickness
 				plan.status = -1
 				if num == 0
 					count += 1

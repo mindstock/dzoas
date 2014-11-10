@@ -95,7 +95,7 @@
           </td>
       <td class="td_01">
         <%if @view_params[:status] == 4%>
-           <button type="button" class="btn btn-info btn-xs" data-toggle="modal" onclick="complete_model(<%=plan.id%>, <%=plan.nickelclad.id%>)">计件</button>
+           <button type="button" class="btn btn-info btn-xs" data-toggle="modal" onclick="complete_model(<%=plan.id%>, <%=plan.nickelclad.id%>, '<%=plan.final_sheet%>')">计件</button>
           <%=check_box_tag "plan_id", "#{plan.id}"%>
         <%else%>
           <%= link_to '详细', edit_plan_path(plan) %>
@@ -132,6 +132,13 @@
           <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
           <h4 class="modal-title">记录开平张数</h4>
         </div>
+        <div class="modal-body" id="select_tape">
+          <label class="col-sm-3 control-label">钢卷号</label>
+          <%= hidden_field_tag "is_update", ""%>
+          <div id="select_tape_id" class="col-sm-8">
+            
+          </div>
+        </div>
         <div class="modal-body">
           <%= hidden_field_tag "nickelclad_id", ""%>
           <%= hidden_field_tag "complete_plan_id", ""%>
@@ -159,9 +166,33 @@
         
       }
 
-      function complete_model(plan_id, nickelclad_id){
+      function complete_model(plan_id, nickelclad_id, final_sheet){
         $("#nickelclad_id").val(nickelclad_id);
         $("#complete_plan_id").val(plan_id);
+        if(final_sheet =="余开"){
+          document.getElementById("select_tape").style.display="block";
+          $.ajax({
+                    type:"get",
+                    dataType:"text",
+                    url: "/plans/check/merge?nickelclad_id="+nickelclad_id,
+                    contentType: "application/json; charset=utf-8", 
+                    success:function(result){
+                      result = eval("(" + result + ")");
+                      var count = result.tape;
+                      templete = "<select id=\"tape_id\" name=\"tape_id\" class=\"required\">";
+                      templete += "<option value=\"\">请选择钢卷号</option>";
+                      $.each(count, function(i, val){
+                        templete += "<option value=\""+val.id+"\">"+val.tape_num+"</option>";
+                      });
+                      templete += "</select>注：余开钢板，请慎重选择钢卷号！";
+                      $("#select_tape_id").html(templete);
+                      $("#is_update").val("1");
+                    }
+                  });
+        }else{
+          document.getElementById("select_tape").style.display="none";
+        };
+        
         $('#complete').modal('show');
       };
       $("#search").click(function (){
@@ -185,6 +216,10 @@
         }
         
       });
+
+      $().ready(function() { 
+        $("#plan_complete").validate(); 
+  });
 </script>
 
 

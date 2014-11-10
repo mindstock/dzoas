@@ -1,0 +1,31 @@
+<%=javascript_include_tag "organization"%>
+<script language="javascript">
+<%@groups.each_with_index do|group, index|%>
+  <%if index == 0%>
+    var <%=group.title%>=new OrgNode();
+    <%=group.title%>.Text="<%=group.title%>";
+    <%=group.title%>.Link="";
+  <%else%>
+    var <%=group.title%>=new OrgNode();
+    <%=group.title%>.Text="<%=group.title%>";
+    <%=group.title%>.Link="<%=group.title%>";
+    <%=group.manager.title%>.Nodes.Add(<%=group.title%>);
+  <%end%>
+  
+
+<%end%>
+</script>
+
+<script language="javascript">
+var OrgShows=new OrgShow(大章);
+OrgShows.Top=100;
+OrgShows.Left=300;
+OrgShows.IntervalWidth=10;
+OrgShows.IntervalHeight=20;
+OrgShows.ShowType=2;
+OrgShows.BoxHeight=100;
+OrgShows.Run();
+$("LoadBox").style.display="none";
+</script>
+
+<%= link_to 'New Group', new_group_path %>

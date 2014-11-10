@@ -120,5 +120,6 @@ class TapesController < ApplicationController
       @day = get_out_weight 'day'
       @month = get_out_weight 'month'
       @year = get_out_weight 'year'
+      @all = get_all_weight
     end
 end

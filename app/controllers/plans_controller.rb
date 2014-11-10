@@ -257,6 +257,18 @@ class PlansController < ApplicationController
     redirect_to '/plans/check/list/1'
   end
 
+  def get_plans_by_merge
+    merge = Nickelclad.find(params[:nickelclad_id]).merge
+    plans = Plan.where(tape_merge: merge).select("tape_id").distinct
+    tape_ids = []
+    plans.each do |plan|
+      tape_ids << plan.tape_id
+    end
+    tape = Tape.find(tape_ids)
+    json = {tape: tape}
+    render :json => json, status => "200 ok"
+  end
+
 
   private
     # Use callbacks to share common setup or constraints between actions.

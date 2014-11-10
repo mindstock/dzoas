@@ -30,7 +30,9 @@ class BagsController < ApplicationController
         sheet_split bag_params
         sheet = bat_sheet(nickelclad_id)
         plan_update_by_hash bag_params[:complete_plan_id], {real_final_sheet: sheet}
+        plan_update_by_hash bag_params[:complete_plan_id], {tape_id: params[:tape_id]} if params[:is_update].to_s == "1"
         nickelclad_update_by_hash bag_params[:nickelclad_id], {real_final_sheet: sheet}
+
       end
       redirect_to '/plans/check/list/1?menu=7'
     else

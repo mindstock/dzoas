@@ -12,7 +12,6 @@ class ApplicationController < ActionController::Base
 
   	def nav
   		if user_signed_in?
-  			user_session[:role] = "访客" if current_user.role.name != "超级管理员"
         @power_ids = get_power_ids_by_role_id current_user.role.id
         @html = get_navigation params[:menu], @power_ids
 

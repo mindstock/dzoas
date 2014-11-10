@@ -78,7 +78,7 @@ $(function(){
      <%= link_to "登录", new_user_session_path%>
     <%end%>
    </td>
-   <td align="right" class="F02"><a href="online/online.html" target="mainFrame" class="a01">当前在线</a> ｜ <a href="schedule/index.htm" target="mainFrame" class="a01">日程安排</a> ｜ <a href="grdingzhi/index1.htm" target="mainFrame" class="a01">个人定制</a> ｜ <a href="../html/collection/PersonalCollection.html" target="mainFrame" class="a01">个人收藏夹</a>｜ <a href="../html/message/message.htm" target="mainFrame" class="a01">站内消息[2]</a>
+   <td align="right" class="F02"><a href="online/online.html" target="mainFrame" class="a01">当前在线</a> ｜ <a href="schedule/index.htm" target="mainFrame" class="a01">日程安排</a> ｜ <%= link_to('修改密码', edit_registration_path(current_user)) %> ｜ <a href="../html/collection/PersonalCollection.html" target="mainFrame" class="a01">个人收藏夹</a>｜ <a href="../html/message/message.htm" target="mainFrame" class="a01">站内消息[2]</a>
    <td width="14" class="F02"></td>
  </tr>
 </form>

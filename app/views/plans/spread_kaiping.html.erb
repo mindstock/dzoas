@@ -36,7 +36,6 @@
      <td nowrap class="td_top">表面件</td>
      <td nowrap class="td_top">备注</td>
      <td nowrap class="td_top">状态</td>
-     <td nowrap class="td_top">实际张数</td>
      <td nowrap class="td_top">操作</td>
   </tr>
   <%@plans.each_with_index do|plan, index|%>
@@ -81,15 +80,6 @@
         <td class="td_01" id="status">
             <%=@plan_status_name[plan.status]%>
         </td>
-        <td class="td_01">
-            <%plan.nickelclad.bags.each_with_index do|bag, index|%>
-              <%=bag.sheet%>
-              <%if index != plan.nickelclad.bags.length-1%>
-              +
-              <%end%>
-            <%end%>
-          </td>
-        
         <td class="td_01_break" id="exec">
           
           <% if plan.status == 1%>

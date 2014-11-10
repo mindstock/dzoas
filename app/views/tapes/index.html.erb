@@ -40,9 +40,14 @@ function windowOpen(theURL,winName,features,width,hight,scrollbars,top,left)
       <a href="/tapes?type=year"><%=@year[0]%>KG &nbsp;&nbsp;钢卷数：<%=@year[1]%>个&nbsp;&nbsp;&nbsp;</a>
     </td>
   </tr>
+  <tr>
+    <td class="td_page">
+      <span style="color:red">库存总量</span>：
+      <%=@all[0]/1000.to_f%>吨 &nbsp;&nbsp;钢卷数：<%=@all[1]%>个&nbsp;&nbsp;&nbsp;
+    </td>
+  </tr>
 </table>
 <br>
-<%if params[:type] == 'all'%>
 <table width="100%"  border="0" align="center" cellpadding="0" cellspacing="0">
   <tr>
     <td class="td_page">
@@ -64,7 +69,6 @@ function windowOpen(theURL,winName,features,width,hight,scrollbars,top,left)
     </td>
   </tr>
 </table>
-<%end%>
 <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0" style="table-layout:fixed">
   <tr> 
     <td nowrap class="td_top">ID</td>
@@ -91,7 +95,7 @@ function windowOpen(theURL,winName,features,width,hight,scrollbars,top,left)
       <td class="td_01" id="residue_weight"><%=tape.residue_weight%></td>
       <td class="td_01" id="tape_num"><%=tape.tape_num%></td>
       <td class="td_01" id="status"><%=@status_info[tape.status]%></td>
-      <td class="td_01" id="exec"><%=tape.created_at%></td>
+      <td class="td_01" id="exec"><%=tape.created_at.to_s[0, 10]%></td>
       <%if params[:type] != 'all'%>
         <td class="td_01" id="exec"><%=tape.profit%></td>
       <%end%>

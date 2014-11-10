@@ -76,4 +76,19 @@ Dzoas::Application.configure do
 
   # Use default logging formatter so that PID and timestamp are not suppressed.
   config.log_formatter = ::Logger::Formatter.new
+
+
+  ActionMailer::Base.delivery_method = :smtp
+  config.action_mailer.perform_deliveries = true
+  config.action_mailer.raise_delivery_errors = true
+  config.action_mailer.default :charset => "utf-8"
+  config.action_mailer.default_url_options = { :host => 'localhost:3000' }
+  ActionMailer::Base.smtp_settings = {  
+    :address => "smtp.163.com",
+    :port => 25,
+    :domain => "163.com",
+    :authentication => :login,
+    :user_name => "btqnyao@163.com",
+    :password => "ybf@8023"
+  }
 end

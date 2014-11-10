@@ -1,4 +1,6 @@
 Dzoas::Application.routes.draw do
+  resources :groups
+
   resources :listens
 
   resources :tape_logs
@@ -61,10 +63,12 @@ Dzoas::Application.routes.draw do
   get '/plans/append/new' => 'plans#append_plan'
   post '/plans/append/plan' => 'plans#append_new_plan'
   get '/plans/append/plan_json' => 'plans#get_plan_for_json'
+  get 'plans/check/merge' => 'plans#get_plans_by_merge'
 
   resources :tapes
   get '/tapes/store/upload_file' => 'tapes#upload_file'
   post '/tapes/store/search' => 'tapes#search'
+  get '/tapes/store/search' => 'tapes#search'
   post '/tapes/upload' => 'tapes#upload'
   post '/plans/tape/search' => 'tapes#plan_search'
 

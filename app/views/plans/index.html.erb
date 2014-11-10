@@ -18,14 +18,14 @@
         <select name="status" id="status">
           <option value="1" <%if @view_params[:history] == 1%>selected<%end%>>未完成</option>
           <option value="2" <%if @view_params[:history] == 2%>selected<%end%>>已完成</option>
-          <%if @role != "访客"%><option value="-1" <%if @view_params[:history] == -1%>selected<%end%>>待发布</option><%end%>
+          <%if params[:role].to_i != 1%><option value="-1" <%if @view_params[:history] == -1%>selected<%end%>>待发布</option><%end%>
         </select>
         
       任务完成时间：
       <input type="date" id="finish_at" class="input" size="10" value="<%=@view_params[:finish_at]%>"/> 
 
       <input name="search" id="search" type="button" class="buttonface02" value="查询">
-      <%if @role != "访客"%>   
+      <%if params[:role].to_i != 1%>   
         <%= link_to "创建计划", "/plans/search/tapes"%>
         <%= link_to "追加计划", "/plans/append/new"%>
       <%end%>
@@ -50,8 +50,7 @@
      <td nowrap class="td_top">送往单位</td>
      <td nowrap class="td_top">备注</td>
      <td nowrap class="td_top">任务状态</td>
-     <td nowrap class="td_top">实际张数</td>
-     <%if @role != "访客"%><td nowrap class="td_top">操作</td><%end%>
+     <%if params[:role].to_i != 1%><td nowrap class="td_top">操作</td><%end%>
   </tr>
   <%@plans.each_with_index do|plan,index|%>
     <%if @plans[index-1].tape_merge != @plans[index].tape_merge%>
@@ -108,15 +107,7 @@
       <td class="td_01" id="finish_at"><%=plan.nickelclad.to%></td>
       <td class="td_01" id="remark" style="word-wrap:break-word;"><%=plan.remark%></td>
       <td class="td_01"><%=@plan_status_name[plan.status]%></td>
-      <td class="td_01">
-            <%plan.nickelclad.bags.each_with_index do|bag, index|%>
-              <%=bag.sheet%>
-              <%if index != plan.nickelclad.bags.length-1%>
-              +
-              <%end%>
-            <%end%>
-          </td>
-      <%if @role != "访客"%>
+      <%if params[:role].to_i != 1%>
       <td class="td_01">
         <%if @view_params[:history] == 2%>
           <%= link_to '详细', plan_path(plan) %>
@@ -165,6 +156,13 @@
         }
         
       });
+
+    $(function(){
+      <%if current_user.role.name.include?("车间")%>
+          location.href = "/plans/spread/1"
+      <%end%> 
+    });
+
 </script>
 
 
