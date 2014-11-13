@@ -170,7 +170,6 @@
         $("#nickelclad_id").val(nickelclad_id);
         $("#complete_plan_id").val(plan_id);
         if(final_sheet =="余开"){
-          document.getElementById("select_tape").style.display="block";
           $.ajax({
                     type:"get",
                     dataType:"text",
@@ -182,11 +181,17 @@
                       templete = "<select id=\"tape_id\" name=\"tape_id\" class=\"required\">";
                       templete += "<option value=\"\">请选择钢卷号</option>";
                       $.each(count, function(i, val){
-                        templete += "<option value=\""+val.id+"\">"+val.tape_num+"</option>";
+                        templete += "<option value=\""+val.id+"\"> "+val.tape_num+"</option>";
                       });
                       templete += "</select>注：余开钢板，请慎重选择钢卷号！";
-                      $("#select_tape_id").html(templete);
-                      $("#is_update").val("1");
+                      if(count.length == 1){
+                        document.getElementById("select_tape").style.display="none";
+                      }else{
+                        document.getElementById("select_tape").style.display="block";
+                        $("#select_tape_id").html(templete);
+                        $("#is_update").val("1");
+                      }
+                      
                     }
                   });
         }else{

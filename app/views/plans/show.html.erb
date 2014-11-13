@@ -29,21 +29,21 @@
         </td>
         <td height="24" class="td_form01">送往单位</td>
         <td class="td_form02">
-          <%= text_field_tag 'to',"#{@plan.nickelclad.to}", :class => "form-control"%>
+          <%= text_field_tag 'to',"#{@plan.nickelclad.to}", :class => "input"%>
         </td>
       </tr>
       <tr>
         <td class="td_form01">计划件数</td>
         <td class="td_form02">
           <%if @plan.final_sheet == ""%>
-            <%= text_field_tag 'final_sheet',"全开", :class => "form-control"%>
+            <%= text_field_tag 'final_sheet',"全开", :class => "input"%>
           <%else%>
-            <%= text_field_tag 'final_sheet',"#{@plan.final_sheet}", :class => "form-control"%>
+            <%= text_field_tag 'final_sheet',"#{@plan.final_sheet}", :class => "input"%>
           <%end%>
         </td>
         <td class="td_form01">实际件数</td>
         <td class="td_form02">
-          <%= text_field_tag 'final_sheet',"#{@plan.nickelclad.real_final_sheet}", :class => "form-control"%>
+          <%= text_field_tag 'final_sheet',"#{@plan.nickelclad.real_final_sheet}", :class => "input"%>
         </td>
       </tr>
        <tr>
@@ -54,7 +54,7 @@
         </td>
         <td height="24" class="td_form01">重要程度</td>
         <td class="td_form02">
-          <select class="form-control" id="is_urgency" name="is_urgency">
+          <select class="input" id="is_urgency" name="is_urgency">
             <option value ="0" <%if @plan.is_urgency == 0%>selected="selected"<%end%>>一般</option>
             <option value ="1" <%if @plan.is_urgency == 1%>selected="selected"<%end%>>紧急</option>
           </select>
@@ -64,11 +64,11 @@
       <tr>
         <td height="24" class="td_form01">完工日期</td>
         <td class="td_form02">
-          <%= text_field_tag "finish_at", "#{@plan.finish_at}", :class => "form-control dtpicker", "data-format" => "yyyy-MM-dd"%>
+          <%= text_field_tag "finish_at", "#{@plan.finish_at}", :class => "input dtpicker", "data-format" => "yyyy-MM-dd"%>
         </td>
         <td height="24" class="td_form01">实际完工日期</td>
         <td class="td_form02">
-          <%= text_field_tag "finish_at", "#{@plan.real_finish_at}", :class => "form-control dtpicker", "data-format" => "yyyy-MM-dd"%>
+          <%= text_field_tag "finish_at", "#{@plan.real_finish_at}", :class => "input dtpicker", "data-format" => "yyyy-MM-dd"%>
         </td>
       </tr>
       <tr="2">
@@ -80,7 +80,7 @@
         </td>
         <td class="td_form01">备注</td>
         <td class="td_form02">
-          <%= text_area_tag "remark", "#{@plan.remark}", :class => "form-control"%>
+          <%= text_area_tag "remark", "#{@plan.remark}", :class => "input"%>
         </td>
       </tr>
     </table>

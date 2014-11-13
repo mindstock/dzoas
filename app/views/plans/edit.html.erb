@@ -13,7 +13,7 @@
       <tr>
         <td width="90" height="24" class="td_form01">钢卷规格</td>
         <td class="td_form02">
-          <%= text_field_tag 'tape_size',"#{@plan.tape.thickness}*#{@plan.tape.wide}*#{@plan.tape.length}", :class => "form-control",:readonly => "readonly"%>
+          <%= text_field_tag 'tape_size',"#{@plan.tape.thickness}*#{@plan.tape.wide}*#{@plan.tape.length}", :class => "input",:readonly => "readonly"%>
           <%= hidden_field_tag "plan_id", "#{@plan.id}"%>
         </td>
         <td width="90" class="td_form01">是否收卷</td>
@@ -30,20 +30,20 @@
         <td class="td_form01">计划件数</td>
         <td class="td_form02">
           <%if @plan.final_sheet == ""%>
-            <%= text_field_tag 'final_sheet',"", :class => "form-control"%>
+            <%= text_field_tag 'final_sheet',"", :class => "input"%>
           <%else%>
-            <%= text_field_tag 'final_sheet',"#{@plan.final_sheet}", :class => "form-control"%>
+            <%= text_field_tag 'final_sheet',"#{@plan.final_sheet}", :class => "input"%>
           <%end%>
         </td>
       </tr>
       <tr>
         <td height="24" class="td_form01">送往单位</td>
         <td class="td_form02">
-          <%= text_field_tag 'to',"#{@plan.nickelclad.to}", :class => "form-control"%>
+          <%= text_field_tag 'to',"#{@plan.nickelclad.to}", :class => "input"%>
         </td>
         <td class="td_form01">重要程度</td>
         <td class="td_form02">
-          <select class="form-control" id="is_urgency" name="is_urgency">
+          <select class="input" id="is_urgency" name="is_urgency">
             <option value ="0" <%if @plan.is_urgency == 0%>selected="selected"<%end%>>一般</option>
             <option value ="1" <%if @plan.is_urgency == 1%>selected="selected"<%end%>>紧急</option>
           </select>

@@ -33,11 +33,11 @@ function windowOpen(theURL,winName,features,width,hight,scrollbars,top,left)
   <tr>
     <td class="td_page">
       <span style="color:red">当天出库总量</span>：
-      <a href="/tapes?type=day"><%=@day[0]%>KG &nbsp;&nbsp;钢卷数：<%=@day[1]%>个&nbsp;&nbsp;&nbsp;</a>
+      <a href="/tapes?type=day"><%=@day[0].to_i/1000.to_f%>吨 &nbsp;&nbsp;钢卷数：<%=@day[1]%>个&nbsp;&nbsp;&nbsp;</a>
       <span style="color:red">当月出库总量</span>：
-      <a href="/tapes?type=month"><%=@month[0]%>KG &nbsp;&nbsp;钢卷数：<%=@month[1]%>个&nbsp;&nbsp;&nbsp;</a>
+      <a href="/tapes?type=month"><%=@month[0].to_i/1000.to_f%>吨 &nbsp;&nbsp;钢卷数：<%=@month[1]%>个&nbsp;&nbsp;&nbsp;</a>
       <span style="color:red">年度出库总量</span>：
-      <a href="/tapes?type=year"><%=@year[0]%>KG &nbsp;&nbsp;钢卷数：<%=@year[1]%>个&nbsp;&nbsp;&nbsp;</a>
+      <a href="/tapes?type=year"><%=@year[0].to_i/1000.to_f%>吨 &nbsp;&nbsp;钢卷数：<%=@year[1]%>个&nbsp;&nbsp;&nbsp;</a>
     </td>
   </tr>
   <tr>

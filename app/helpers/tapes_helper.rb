@@ -94,6 +94,10 @@ module TapesHelper
       tape.plan.each do |plan|
         nickelclad = plan.nickelclad
         _weight += get_weight(nickelclad.real_final_sheet, nickelclad.length, nickelclad.wide, tape.thickness)
+        bags = Bag.where(nickelclad_id: nickelclad.id, is_nickelclad_top: 1)
+        bags.each do |bag|
+          _weight += get_weight(1, bag.sheet.to_f*1000, nickelclad.wide, tape.thickness)
+        end
       end
       _weight
     end

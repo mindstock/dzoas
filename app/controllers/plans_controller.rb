@@ -39,7 +39,7 @@ class PlansController < ApplicationController
 
   def show
     plan = Plan.find(params[:id].to_i)
-    @plans = Plan.where(tape_id: plan.tape.id, status: 4)
+    @plans = Plan.where("tape_id = #{plan.tape.id} and status > 4")
     @quclity_checks = QuclityCheck.where(plan_id: plan.id)
     render(:layout => "head") if params[:type].to_i == 1
   end
